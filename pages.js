@@ -13,6 +13,10 @@ window.PAGES = {
   titel:"Jüdische Gemeinde in Kleineicholzheim", untertitel:"",
   bloecke:[{typ:"text", text:"Hier folgt dein Text."}]
  },
+ "impressum": {
+  titel:"Impressum", untertitel:"",
+  bloecke:[{typ:"text", text:"Angaben gemäß § 5 DDG\n\nName: [Vor- und Nachname eintragen]\nAnschrift: [Straße, PLZ Ort eintragen]\nE-Mail: [E-Mail-Adresse eintragen]"}]
+ },
  "ns-zeit-und-das-ende-der-gemeinde": {
   titel:"NS-Zeit und das Ende der Gemeinde", untertitel:"",
   bloecke:[{typ:"text", text:"Hier folgt dein Text."}]

@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jüdisches Leben in Kleineicholzheim</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:"Instrument Sans";font-weight:400;src:url(fonts/instrument-sans-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Instrument Sans";font-weight:500;src:url(fonts/instrument-sans-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Instrument Sans";font-weight:600;src:url(fonts/instrument-sans-latin-600-normal.woff2) format("woff2")}
 :root{--bg:#fff;--ink:#111;--mute:#8a8a8a;--acc:#d3201b}
 *{box-sizing:border-box;margin:0}
 body{background:var(--bg);color:var(--ink);font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:1rem;line-height:1.35}
@@ -71,6 +71,33 @@ footer{grid-column:1/-1;margin-top:40px;font-size:.95rem;color:var(--mute)}
  .lbl,.lead-line,.town{display:none}.dot{transform:scale(2.4)}.item:hover .dot{transform:scale(3)}
  .index{display:block}
 }
+
+/* ===== Variante 2: Papier, Tinte, Haarlinien ===== */
+:root{--bg:#f3f0e9;--ink:#1b1917;--mute:#8d877c;--acc:#8e2b1f}
+body{font-family:"Instrument Sans","Helvetica Neue",Arial,sans-serif;font-weight:400;letter-spacing:-.005em;line-height:1.4}
+.layout{grid-template-columns:minmax(300px,30%) 1fr;padding:clamp(24px,3.2vw,56px)}
+.side h1{font-weight:500;font-size:clamp(1.6rem,2.5vw,2.6rem);line-height:1.04;letter-spacing:-.025em;white-space:normal;max-width:9em;margin-bottom:clamp(28px,4.5vw,72px)}
+nav{max-width:none}
+nav a{font-size:clamp(.9rem,1vw,1.1rem);padding:.45em 0;display:flex;gap:.8em;letter-spacing:0}
+nav a[aria-current]{font-weight:600}
+nav a:hover{color:var(--acc)}
+.intro{font-size:clamp(.82rem,.88vw,1rem);color:var(--ink);max-width:none;margin-bottom:clamp(8px,1.5vw,24px)}
+.lbl{font:400 19px "Instrument Sans",sans-serif;letter-spacing:-.01em}
+.town{font:500 15px "Instrument Sans",sans-serif;letter-spacing:.04em;fill:var(--mute)}
+.lead-line{stroke-width:1.1;stroke-dasharray:none;opacity:.55}
+.item:hover .lead-line,.item:focus-visible .lead-line{opacity:1;stroke-width:1.4}
+.dot{r:8}
+.road{stroke:var(--ink)}
+.more{font-weight:500}
+.card{border-top:1px solid var(--ink);border-radius:0}
+.card h3{font-weight:500;letter-spacing:-.025em}
+.card .k{font-weight:500;letter-spacing:.16em}
+#modal{background:#1b1917d9}
+footer{font-size:.8rem;letter-spacing:.02em;border-top:1px solid #1b191733;padding-top:12px;display:flex;justify-content:space-between;gap:20px}
+footer a{color:inherit;text-decoration:none}footer a:hover,footer a:focus-visible{color:var(--acc);outline:none}
+.page p{white-space:pre-line}
+.layout{grid-template-rows:1fr auto}
+.page h2{font-weight:500;letter-spacing:-.025em}
 </style>
 </head>
 <body>
@@ -103,7 +130,7 @@ footer{grid-column:1/-1;margin-top:40px;font-size:.95rem;color:var(--mute)}
 
     <article id="view-page" class="page" hidden></article>
   </main>
-  <footer>Ein Erinnerungsprojekt · Schematische Karte, nicht maßstabsgetreu</footer>
+  <footer><span>Ein Erinnerungsprojekt · Schematische Karte, nicht maßstabsgetreu</span><a href="#impressum">Impressum</a></footer>
 </div>
 
 <div id="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="card" id="card"></div></div>
