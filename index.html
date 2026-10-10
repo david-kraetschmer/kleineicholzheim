@@ -5,99 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jüdisches Leben in Kleineicholzheim</title>
 <style>
-@font-face{font-family:"Instrument Sans";font-weight:400;src:url(fonts/instrument-sans-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:"Instrument Sans";font-weight:500;src:url(fonts/instrument-sans-latin-500-normal.woff2) format("woff2")}
-@font-face{font-family:"Instrument Sans";font-weight:600;src:url(fonts/instrument-sans-latin-600-normal.woff2) format("woff2")}
-:root{--bg:#fff;--ink:#111;--mute:#8a8a8a;--acc:#d3201b}
+@font-face{font-family:Outfit;font-weight:400;src:url(fonts/outfit-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Outfit;font-weight:500;src:url(fonts/outfit-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:Outfit;font-weight:600;src:url(fonts/outfit-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:400;src:url(fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:500;src:url(fonts/inter-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:600;src:url(fonts/inter-latin-600-normal.woff2) format("woff2")}
+:root{--bg:#f3f0e9;--ink:#1b1917;--line:#1b1917;--mute:#8d877c;--acc:#8e2b1f}
 *{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--ink);font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;font-size:1rem;line-height:1.35}
-.layout{display:grid;grid-template-columns:minmax(280px,31%) 1fr;gap:0;padding:clamp(20px,3vw,48px) clamp(20px,3vw,48px) 24px;min-height:100vh}
-.side h1{font-weight:700;font-size:clamp(1.25rem,1.5vw,1.9rem);line-height:1.15;margin-bottom:clamp(24px,4vw,64px);white-space:nowrap}
-.side h1 a{color:inherit;text-decoration:none}
-nav a{display:block;color:var(--ink);text-decoration:none;font-size:clamp(1rem,1.15vw,1.4rem);padding:.2em 0}
-nav a:hover,nav a:focus-visible{color:var(--acc);outline:none}
-nav a[aria-current]{font-weight:700}
-.intro{font-size:clamp(.95rem,1vw,1.25rem);line-height:1.4;margin-bottom:clamp(16px,3vw,48px);white-space:nowrap}
-.map{max-width:1100px}
-svg{width:100%;height:auto;display:block;overflow:visible}
-.road{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
-.town{font:500 24px "Barlow Condensed",sans-serif;fill:var(--mute)}
-.item{cursor:pointer;outline:none;transition:opacity .25s}
-.map:has(.item:hover) .item:not(:hover),.map:has(.item:focus-visible) .item:not(:focus-visible){opacity:.2}
-.dot{fill:var(--ink);transform-box:fill-box;transform-origin:center;transition:transform .25s,fill .2s}
-.ring{fill:none;stroke:var(--acc);stroke-width:2.5;opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.4);transition:.3s}
-.lead-line{stroke:var(--ink);stroke-width:3;stroke-dasharray:.1 8;stroke-linecap:round;transition:stroke .2s}
-.lbl{font:400 24px "Barlow Condensed",sans-serif;fill:var(--ink);transition:fill .2s}
-.more{font-weight:600;fill:var(--acc);opacity:0;transition:opacity .25s}
-.item:hover .dot,.item:focus-visible .dot{transform:scale(1.9);fill:var(--acc)}
-.item:hover .ring,.item:focus-visible .ring{opacity:1;transform:scale(1)}
-.item:hover .lead-line,.item:focus-visible .lead-line{stroke:var(--acc);stroke-dasharray:none;stroke-width:2.5}
-.item:hover .lbl,.item:focus-visible .lbl{fill:var(--acc)}
-.item:hover .more,.item:focus-visible .more{opacity:1}
+body{background:var(--bg);color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5}
+.layout{display:grid;grid-template-columns:minmax(320px,28%) 1fr;grid-template-rows:1fr auto;gap:0 clamp(16px,3vw,48px);padding:clamp(24px,3.5vw,56px);min-height:100vh}
+h1{font-family:Outfit,sans-serif;font-weight:500;font-size:clamp(1.9rem,2.7vw,3rem);line-height:1.04;letter-spacing:-.01em;text-wrap:balance}
+h1 a{color:inherit;text-decoration:none}
+nav{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin-top:clamp(28px,4vw,60px)}
+nav a{width:fit-content;border:1px solid transparent;padding:.35em .75em;margin-left:-.75em;font-size:clamp(.92rem,1.05vw,1.1rem);color:var(--ink);text-decoration:none;transition:.15s}
+nav a:hover,nav a:focus-visible{background:none;color:var(--acc);outline:none}
+nav a[aria-current],nav a[aria-current]:hover{background:none;border-color:var(--ink);color:var(--ink)}
+.intro{font-size:clamp(.85rem,1.05vw,1.05rem);margin-bottom:8px}
+svg.map{width:100%;height:auto;display:block;overflow:visible}
+.h{font:500 18px Inter,sans-serif;letter-spacing:-.005em}
+.sb,.ad{font:400 16px Inter,sans-serif;fill:var(--ink)}
+.town{font:500 13px Inter,sans-serif;letter-spacing:.04em;fill:#a39d92}
+.part{transition:opacity .25s}
+.map.hov .part:not(.on){opacity:.16}
+.conn{fill:none;stroke:#1b191780;stroke-width:1.1;transition:stroke-width .2s}
+.conn.on{stroke:var(--acc);stroke-width:1.6}
+.lab{cursor:pointer;outline:none}
+.lab .h{fill:var(--ink);transition:fill .2s}
+.lab.on .h{fill:var(--acc)}
 .hit{fill:transparent}
-.index{display:none;margin-top:24px;border-top:1px solid var(--ink)}
-.index ol{list-style:none;padding:0}
-.index button{all:unset;cursor:pointer;display:block;width:100%;padding:9px 0;border-bottom:1px solid #1112;font-weight:500;font-size:1.2rem}
-.index button small{display:block;font-weight:400;font-size:1rem;color:var(--mute)}
-.page{max-width:68ch}
-.page h2{font-weight:700;font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.05;margin-bottom:.3em}
+.dot{fill:var(--ink);transform-box:fill-box;transform-origin:center;transition:transform .22s,fill .2s}
+.ring{fill:none;stroke:var(--acc);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.4);transition:.25s}
+.cube.on .dot{fill:var(--acc);transform:scale(1.5)}
+.cube.on .ring{opacity:1;transform:scale(1)}
+.index{display:none;margin-top:20px}
+.index button{all:unset;cursor:pointer;display:block;width:100%;padding:10px 0;border-bottom:1px solid #1112;font:500 1.05rem Outfit,sans-serif}
+.index button small{display:block;font:400 .85rem Inter,sans-serif;color:var(--mute)}
+.page{max-width:64ch}
+.page h2{font-family:Outfit,sans-serif;font-weight:500;font-size:clamp(1.8rem,2.6vw,2.8rem);line-height:1.08;margin-bottom:.4em}
 .page .sub{color:var(--mute);margin-bottom:1.2em}
-.page p{margin-bottom:1em;font-size:1.1rem;line-height:1.5}
-.page h3{font-weight:600;font-size:1.5rem;margin:1.4em 0 .4em}
-.page figure{margin:1.5em 0}.page figure img{width:100%;display:block;filter:grayscale(1)}
-.page figcaption{font-size:.95rem;color:var(--mute);margin-top:6px}
-.page .infobox{border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);padding:12px 0;margin:1.5em 0}
+.page p{margin-bottom:1em;white-space:pre-line}
+.page h3{font:500 1.4rem Outfit,sans-serif;margin:1.4em 0 .4em}
+.page figure{margin:1.5em 0}.page figure img{width:100%;display:block}
+.page figcaption{font-size:.85rem;color:var(--mute);margin-top:6px}
+.page .infobox{border:1px solid var(--line);padding:14px 16px;margin:1.5em 0}
 .page .infobox b{display:block;margin-bottom:6px}
 [hidden]{display:none!important}
 #modal{position:fixed;inset:0;background:#111c;display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
 #modal.open{display:flex}
-.card{background:var(--bg);max-width:620px;width:100%;max-height:90vh;overflow:auto;padding:clamp(22px,4vw,44px);border-top:4px solid var(--ink);position:relative;animation:in .25s ease}
+.card{background:var(--bg);max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:clamp(22px,4vw,44px);border:0;border-top:1px solid var(--ink);position:relative;animation:in .25s ease}
 @keyframes in{from{opacity:0;transform:translateY(12px)}}
-.card .k{font-weight:600;font-size:.95rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
-.card h3{font-weight:700;font-size:clamp(2rem,5vw,3rem);line-height:1;margin:.25em 0 .2em}
+.card .k{font-size:.8rem;color:var(--mute)}
+.card h3{font:500 clamp(1.8rem,4vw,2.6rem)/1.05 Outfit,sans-serif;margin:.5em 0 .25em}
 .card .sub{color:var(--mute);white-space:pre-line}
-.meta{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:8px 0;margin:16px 0;font-size:1.05rem}
-.card img{width:100%;margin-bottom:16px;filter:grayscale(1)}
-.card p{margin-bottom:1em;font-size:1.15rem;line-height:1.5}
-.x{position:absolute;top:10px;right:14px;font-size:1.8rem;line-height:1;background:none;border:0;cursor:pointer;color:var(--ink)}
-.x:hover{color:var(--acc)}
-#coords{position:fixed;left:12px;bottom:12px;background:var(--ink);color:#fff;padding:8px 12px;font:.85rem monospace;display:none;z-index:30}
-footer{grid-column:1/-1;margin-top:40px;font-size:.95rem;color:var(--mute)}
-@media(min-width:821px){svg{max-height:calc(100vh - 170px)}}
-@media(max-width:1100px){.side h1,.intro{white-space:normal}}
+.meta{margin:16px 0;font-size:.95rem;color:#111}
+.card img{width:100%;margin-bottom:16px}
+.card p{margin-bottom:1em}
+.x{position:absolute;top:12px;right:14px;background:none;border:1px solid var(--line);width:34px;height:34px;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--line)}
+.x:hover{background:var(--line);color:var(--bg)}
+footer{grid-column:1/-1;margin-top:32px;padding-top:12px;border-top:1px solid #1b191733;display:flex;justify-content:space-between;gap:20px;font-size:.82rem;color:var(--mute)}
+footer a{color:inherit;text-decoration:none}footer a:hover{color:var(--line)}
 @media(max-width:820px){
- .layout{grid-template-columns:1fr}
- .side h1{margin-bottom:18px}nav{margin-bottom:24px}
- .lbl,.lead-line,.town{display:none}.dot{transform:scale(2.4)}.item:hover .dot{transform:scale(3)}
- .index{display:block}
+ .layout{grid-template-columns:1fr;padding:20px}
+ .lab,.town,.conn{display:none}.index{display:block}
+ nav a{font-size:.95rem}
 }
-
-/* ===== Variante 2: Papier, Tinte, Haarlinien ===== */
-:root{--bg:#f3f0e9;--ink:#1b1917;--mute:#8d877c;--acc:#8e2b1f}
-body{font-family:"Instrument Sans","Helvetica Neue",Arial,sans-serif;font-weight:400;letter-spacing:-.005em;line-height:1.4}
-.layout{grid-template-columns:minmax(300px,30%) 1fr;padding:clamp(24px,3.2vw,56px)}
-.side h1{font-weight:500;font-size:clamp(1.6rem,2.5vw,2.6rem);line-height:1.04;letter-spacing:-.025em;white-space:normal;max-width:9em;margin-bottom:clamp(28px,4.5vw,72px)}
-nav{max-width:none}
-nav a{font-size:clamp(.9rem,1vw,1.1rem);padding:.45em 0;display:flex;gap:.8em;letter-spacing:0}
-nav a[aria-current]{font-weight:600}
-nav a:hover{color:var(--acc)}
-.intro{font-size:clamp(.82rem,.88vw,1rem);color:var(--ink);max-width:none;margin-bottom:clamp(8px,1.5vw,24px)}
-.lbl{font:400 19px "Instrument Sans",sans-serif;letter-spacing:-.01em}
-.town{font:500 15px "Instrument Sans",sans-serif;letter-spacing:.04em;fill:var(--mute)}
-.lead-line{stroke-width:1.1;stroke-dasharray:none;opacity:.55}
-.item:hover .lead-line,.item:focus-visible .lead-line{opacity:1;stroke-width:1.4}
-.dot{r:8}
-.road{stroke:var(--ink)}
-.more{font-weight:500}
-.card{border-top:1px solid var(--ink);border-radius:0}
-.card h3{font-weight:500;letter-spacing:-.025em}
-.card .k{font-weight:500;letter-spacing:.16em}
-#modal{background:#1b1917d9}
-footer{font-size:.8rem;letter-spacing:.02em;border-top:1px solid #1b191733;padding-top:12px;display:flex;justify-content:space-between;gap:20px}
-footer a{color:inherit;text-decoration:none}footer a:hover,footer a:focus-visible{color:var(--acc);outline:none}
-.page p{white-space:pre-line}
-.layout{grid-template-rows:1fr auto}
-.page h2{font-weight:500;letter-spacing:-.025em}
 </style>
 </head>
 <body>
@@ -110,60 +82,173 @@ footer a{color:inherit;text-decoration:none}footer a:hover,footer a:focus-visibl
   <main>
     <section id="view-map">
       <p class="intro">Die letzten Menschen, Familien und Orte der jüdischen Gemeinde vor ihrer Vertreibung und Ermordung durch das NS-Regime.<br>Wähle einen Punkt auf der Karte um mehr zu erfahren</p>
-      <div class="map">
-      <svg id="svg" preserveAspectRatio="xMinYMin meet" viewBox="850 180 1690 1240" role="group" aria-label="Karte von Kleineicholzheim">
-        <g class="road">
-          <path stroke-width="1.2" stroke="#777" d="M1610,400 L1535,525 L1535,600 L1480,620 L1465,670 M1645,497 L1805,600 L1805,740 L1745,770 L1700,860 L1620,975 L1565,968 M1500,730 L1450,820 L1418,870 L1400,925"/>
-          <path stroke-width="2.4" d="M1130,246 C1150,350 1220,470 1300,560 C1350,610 1430,640 1480,675 C1530,710 1560,760 1600,790 C1650,830 1720,880 1750,940 C1760,1000 1700,1100 1670,1250 C1655,1310 1645,1340 1637,1365"/>
-          <path stroke-width="9" d="M1675,252 C1690,300 1695,380 1650,450 C1610,500 1580,560 1575,610 C1572,650 1590,680 1582,700 C1575,740 1560,760 1555,800 C1552,860 1565,900 1560,950 C1550,1000 1500,1030 1480,1080 C1450,1150 1420,1250 1413,1365"/>
-          <path stroke-width="6" d="M1585,694 L1800,694 C1880,694 1930,685 1956,659"/>
-          <path stroke-width="6" d="M1437,875 L1560,918 M1437,875 L1430,925 L1430,1015 L1485,1073"/>
-        </g>
-        <text class="town" x="1652" y="224">Großeicholzheim</text>
-        <text class="town" x="1076" y="418">Eberbach</text>
-        <text class="town" x="1269" y="1397">Oberschefflenz</text>
-        <g id="items"></g>
-      </svg>
-      </div>
-      <section class="index" aria-label="Verzeichnis"><ol id="list"></ol></section>
+      <svg id="svg" class="map" viewBox="0 0 1240 900" role="group" aria-label="Modell von Kleineicholzheim"></svg>
+      <section class="index" aria-label="Verzeichnis"><ol id="list" style="list-style:none;padding:0"></ol></section>
     </section>
-
     <article id="view-page" class="page" hidden></article>
   </main>
   <footer><span>Ein Erinnerungsprojekt · Schematische Karte, nicht maßstabsgetreu</span><a href="#impressum">Impressum</a></footer>
 </div>
 
 <div id="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="card" id="card"></div></div>
-<div id="coords"></div>
 
 <script src="houses.js"></script>
 <script src="pages.js"></script>
 <script>
-const NS='http://www.w3.org/2000/svg',svg=document.getElementById('svg'),items=document.getElementById('items');
-const list=document.getElementById('list'),modal=document.getElementById('modal'),card=document.getElementById('card');
+const NS='http://www.w3.org/2000/svg',svg=document.getElementById('svg');
+const W=1240,H=900;
+const el=(n,a={},p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.append(e);return e};
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const el=(n,a={})=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e};
 const paras=t=>(t||'').split(/\n\s*\n/).map(p=>`<p>${esc(p)}</p>`).join('');
-let last=null;
+const INK='#1b1917';
 
-/* ---------- Karte ---------- */
-HOUSES.forEach(h=>{
-  const lines=[h.titel,...(h.untertitel?h.untertitel.split('\n'):[]),...(h.adresse?h.adresse.split('\n'):[])];
-  const g=el('g',{class:'item',tabindex:0,role:'button','aria-label':h.titel+' – Details öffnen'});
-  const w=Math.max(...lines.map(l=>l.length))*10.2+16;
-  g.append(el('rect',{class:'hit',x:h.tx-8,y:h.ty-26,width:w,height:(lines.length+1)*34+4}),
-           el('line',{class:'lead-line',x1:h.lx,y1:h.ly,x2:h.x,y2:h.y}));
-  const t=el('text',{class:'lbl',x:h.tx,y:h.ty});
-  lines.forEach((l,j)=>{const s=el('tspan',{x:h.tx,dy:j?34:0});s.textContent=l;t.append(s)});
-  const m=el('tspan',{class:'more',x:h.tx,dy:34});m.textContent='Mehr erfahren →';t.append(m);
-  g.append(t,el('circle',{class:'ring',cx:h.x,cy:h.y,r:26}),el('circle',{class:'hit',cx:h.x,cy:h.y,r:30}),el('circle',{class:'dot',cx:h.x,cy:h.y,r:10}));
-  g.onclick=()=>open(h,g);
-  g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(h,g)}};
-  items.append(g);
-  const li=document.createElement('li');
+/* ---------- Projektion: Grundriss -> schräge Modellansicht ---------- */
+const PLAN={x0:1370,x1:1780,y0:228,y1:1392};
+const TH=22*Math.PI/180,K=.72,cos=Math.cos(TH),sin=Math.sin(TH);
+const raw=(x,y)=>{const dx=x-1545,dy=y-810;return[dx*cos-dy*sin,(dx*sin+dy*cos)*K]};
+const corners=[[PLAN.x0,PLAN.y0],[PLAN.x1,PLAN.y0],[PLAN.x1,PLAN.y1],[PLAN.x0,PLAN.y1]].map(p=>raw(...p));
+const bx=[Math.min(...corners.map(c=>c[0])),Math.max(...corners.map(c=>c[0]))],by=[Math.min(...corners.map(c=>c[1])),Math.max(...corners.map(c=>c[1]))];
+const MAPW=760,MAPH=800,S=Math.min(MAPW/(bx[1]-bx[0]),MAPH/(by[1]-by[0]));
+const CX=W/2,CY=H/2-10,SLAB=10;
+const T=(x,y)=>{const[a,b]=raw(x,y);return[CX+a*S-((bx[0]+bx[1])/2)*S,CY+b*S-((by[0]+by[1])/2)*S]};
+const tp=d=>d.replace(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g,(m,x,y)=>{const[a,b]=T(+x,+y);return a.toFixed(1)+','+b.toFixed(1)});
+const poly=pts=>pts.map(p=>p.join(',')).join(' ');
+
+function build(){
+  svg.innerHTML='';
+  const g0=el('g',{},svg);
+  /* Platte */
+  const C=[[PLAN.x0,PLAN.y0],[PLAN.x1,PLAN.y0],[PLAN.x1,PLAN.y1],[PLAN.x0,PLAN.y1]].map(p=>T(...p));
+  const under=C.map(p=>[p[0],p[1]+SLAB]);
+  el('polygon',{points:poly(under),fill:'#e1ddd3',stroke:'#111','stroke-width':1.2,'stroke-linejoin':'round'},g0);
+  [[0,1],[1,2],[2,3],[3,0]].forEach(([a,b])=>{const mid=(C[a][1]+C[b][1])/2;if(mid>C.reduce((s,p)=>s+p[1],0)/4)
+    el('polygon',{points:poly([C[a],C[b],under[b],under[a]]),fill:'#e9e5dc',stroke:'#111','stroke-width':1.2,'stroke-linejoin':'round'},g0)});
+  el('polygon',{points:poly(C),fill:'#fbfaf6',stroke:'#111','stroke-width':1.4,'stroke-linejoin':'round'},g0);
+  /* Straßen & Grundstücke (auf die Platte begrenzt) */
+  const defs=el('defs',{},g0);const cp=el('clipPath',{id:'plateclip'},defs);el('polygon',{points:poly(C)},cp);
+  const gr=el('g',{'clip-path':'url(#plateclip)'},g0);
+  const road=(d,w,c='#111')=>el('path',{d:tp(d),fill:'none',stroke:c,'stroke-width':w,'stroke-linecap':'round','stroke-linejoin':'round'},gr);
+  road('M1610,400 L1535,525 L1535,600 L1480,620 L1465,670 M1645,497 L1805,600 L1805,740 L1745,770 L1700,860 L1620,975 L1565,968',1,'#a9a49a');
+  road('M1130,246 C1150,350 1220,470 1300,560 C1350,610 1430,640 1480,675 C1530,710 1560,760 1600,790 C1650,830 1720,880 1750,940 C1760,1000 1700,1100 1670,1250 C1655,1310 1645,1340 1637,1365',1.5);
+  road('M1675,252 C1690,300 1695,380 1650,450 C1610,500 1580,560 1575,610 C1572,650 1590,680 1582,700 C1575,740 1560,760 1555,800 C1552,860 1565,900 1560,950 C1550,1000 1500,1030 1480,1080 C1450,1150 1420,1250 1413,1365',5);
+  road('M1585,694 L1800,694 C1880,694 1930,685 1956,659',4);
+  road('M1437,875 L1560,918 M1437,875 L1430,925 L1430,1015 L1485,1073',3);
+  /* Ortsnamen */
+  {const[a,b]=T(1690,170);const e=el('text',{class:'town',x:a,y:b,'text-anchor':'middle'},g0);e.textContent='Großeicholzheim'}
+  /* Eberbach: Beschriftung direkt am Bach (dünne Linie) */
+  {const P=[[1300,560],[1350,610],[1430,640],[1480,675]];
+   const bz=t=>{const u=1-t;return[0,1].map(k=>u*u*u*P[0][k]+3*u*u*t*P[1][k]+3*u*t*t*P[2][k]+t*t*t*P[3][k])};
+   const A=T(...bz(.5)),B2=T(...bz(.9));
+   const ang=Math.atan2(B2[1]-A[1],B2[0]-A[0]);
+   const px=A[0]+Math.sin(ang)*9,py=A[1]-Math.cos(ang)*9;
+   const e=el('text',{class:'town',x:px,y:py,transform:`rotate(${(ang*180/Math.PI).toFixed(1)} ${px} ${py})`},g0);e.textContent='Eberbach'}
+  /* Oberschefflenz: unterhalb der Plattenkante, mit sicherem Abstand */
+  {const[a]=T(1637,1365);const L0=C[3],R0=C[2];
+   const edge=x=>L0[1]+(x-L0[0])*(R0[1]-L0[1])/(R0[0]-L0[0]);
+   const e=el('text',{class:'town',x:0,y:0},g0);e.textContent='Oberschefflenz';
+   const w=e.getComputedTextLength()||90,x0=a-50;
+   e.setAttribute('x',x0);e.setAttribute('y',edge(x0+w)+SLAB+30)}
+
+  /* Datenaufbereitung */
+  const items=HOUSES.map(h=>{const[x,y]=T(h.x,h.y);return{h,id:h.id,x,y}});
+  const byX=[...items].sort((a,b)=>a.x-b.x);const half=Math.ceil(items.length/2);
+  byX.forEach((it,i)=>it.side=i<half?'L':'R');
+
+  /* Textblöcke messen */
+  const probe=el('text',{class:'h',x:0,y:-999},svg);
+  const wid=(s,cls='h')=>{probe.setAttribute('class',cls);probe.textContent=s;return probe.getComputedTextLength()};
+  const wrap=(s,max)=>{const w=s.split(' ');const out=[];let cur='';w.forEach(x=>{if((cur+' '+x).trim().length>max&&cur){out.push(cur);cur=x}else cur=(cur+' '+x).trim()});if(cur)out.push(cur);return out};
+  items.forEach(it=>{
+    const h=it.h;
+    it.head=wrap(h.titel,24);
+    it.sub=(h.untertitel?h.untertitel.split('\n'):[]).flatMap(l=>wrap(l,30));
+    it.ad=(h.adresse?h.adresse.split('\n'):[]);
+    it.hw=Math.max(...it.head.map(l=>wid(l)))+4;
+    it.bw=Math.max(it.hw,...it.sub.map(l=>wid(l,'sb')),...it.ad.map(l=>wid(l,'ad')))+4;
+    it.hh=it.head.length*23;
+    it.bh=it.hh+8+(it.sub.length+it.ad.length)*21+4;
+  });
+  probe.remove();
+
+  /* Spalten und Abstände, Linienkreuzungen minimieren */
+  const COLW=250,GAP=18,TOP=16,BOT=H-16;
+  const segX=(p,q,r,t)=>{const o=(a,b,c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
+    return o(p,q,r)*o(p,q,t)<0&&o(r,t,p)*o(r,t,q)<0};
+  const segRect=(p,q,r)=>{let t0=0,t1=1;const dx=q[0]-p[0],dy=q[1]-p[1];
+    for(const[pp,qq]of[[-dx,p[0]-r[0]],[dx,r[2]-p[0]],[-dy,p[1]-r[1]],[dy,r[3]-p[1]]]){
+      if(pp===0){if(qq<0)return false}else{const t=qq/pp;if(pp<0){if(t>t1)return false;if(t>t0)t0=t}else{if(t<t0)return false;if(t<t1)t1=t}}}
+    return true};
+  ['L','R'].forEach(side=>{
+    const L=items.filter(i=>i.side===side).sort((a,b)=>a.y-b.y);
+    const place=()=>L.forEach(it=>{it.x0=side==='L'?4:W-COLW-4;it.uly=it.top+it.hh+2;
+      it.a=side==='L'?[it.x0+it.hw,it.uly]:[it.x0,it.uly];it.b=[it.x,it.y]});
+    const relax=()=>{
+      L.forEach(it=>{it.top=it.y-it.hh-4});
+      for(let r=0;r<3;r++){
+        L.forEach((it,i)=>{it.top=Math.max(it.top,i?L[i-1].top+L[i-1].bh+GAP:TOP)});
+        for(let i=L.length-1;i>=0;i--){const lim=i<L.length-1?L[i+1].top-GAP:BOT;L[i].top=Math.min(L[i].top,lim-L[i].bh)}
+        L.forEach((it,i)=>{it.top=Math.max(it.top,i?L[i-1].top+L[i-1].bh+GAP:TOP)});
+      }
+      place();
+    };
+    const cost=()=>{let c=0,len=0;L.forEach((p,i)=>{len+=Math.hypot(p.a[0]-p.b[0],p.a[1]-p.b[1]);for(let j=i+1;j<L.length;j++)if(segX(p.a,p.b,L[j].a,L[j].b))c+=1;L.forEach(q=>{if(q!==p&&segRect(p.a,p.b,[q.x0-4,q.top-4,q.x0+q.bw+4,q.top+q.bh+4]))c+=1})});return c*10000+len};
+    const feasible=()=>{for(let i=0;i<L.length;i++){const lo=i?L[i-1].top+L[i-1].bh+GAP:TOP;if(L[i].top<lo-.01)return false}const z=L[L.length-1];return z.top+z.bh<=BOT+.01};
+    const tune=()=>{let best=cost();
+      for(let pass=0;pass<12;pass++){let imp=false;
+        for(let k=0;k<L.length;k++)for(const d of[-48,-24,-12,-6,6,12,24,48]){
+          const old=L[k].top;L[k].top=old+d;
+          if(!feasible()){L[k].top=old;continue}
+          place();const c=cost();
+          if(c<best-.5){best=c;imp=true}else{L[k].top=old}}
+        place();if(!imp)break}
+      place();return best};
+    relax();let best=tune(),imp=true,guard=0;
+    while(imp&&guard++<20){imp=false;
+      for(let i=0;i<L.length-1;i++){[L[i],L[i+1]]=[L[i+1],L[i]];relax();const c=tune();
+        if(c<best-.5){best=c;imp=true}else{[L[i],L[i+1]]=[L[i+1],L[i]];relax();tune()}}}
+  });
+
+  /* Ebenen: Linien, Punkte, Beschriftung */
+  const gLines=el('g',{},svg),gCubes=el('g',{},svg),gLabs=el('g',{},svg);
+  const parts={};
+  [...items].sort((a,b)=>a.y-b.y).forEach(it=>{
+    const cg=el('g',{class:'part cube'},gCubes);
+    el('circle',{class:'ring',cx:it.x,cy:it.y,r:12},cg);
+    el('circle',{class:'dot',cx:it.x,cy:it.y,r:5},cg);
+    el('circle',{class:'hit',cx:it.x,cy:it.y,r:14},cg);
+    it.cube=cg;it.tx=it.x;it.ty=it.y;
+  });
+  items.forEach(it=>{
+    const x0=it.x0,uly=it.uly,w=it.hw;
+    const d=it.side==='L'?`M${x0},${uly} H${x0+w} L${it.tx},${it.ty}`:`M${it.tx},${it.ty} L${x0},${uly} H${x0+w}`;
+    const ln=el('path',{class:'part conn',d,stroke:INK},gLines);
+    const lg=el('g',{class:'part lab',tabindex:0,role:'button','aria-label':it.h.titel+' – Details öffnen'},gLabs);
+    el('rect',{class:'hit',x:x0-4,y:it.top-4,width:Math.max(w,COLW-30),height:it.bh+8},lg);
+    it.head.forEach((l,j)=>{const t=el('text',{class:'h',x:x0,y:it.top+18+j*23},lg);t.textContent=l});
+    let yy=uly+22;
+    it.sub.forEach(l=>{const t=el('text',{class:'sb',x:x0,y:yy},lg);t.textContent=l;yy+=21});
+    it.ad.forEach(l=>{const t=el('text',{class:'ad',x:x0,y:yy},lg);t.textContent=l;yy+=21});
+    parts[it.id]=[ln,lg,it.cube];
+    const on=()=>{svg.classList.add('hov');parts[it.id].forEach(e=>e.classList.add('on'))};
+    const off=()=>{svg.classList.remove('hov');parts[it.id].forEach(e=>e.classList.remove('on'))};
+    [lg,it.cube].forEach(e=>{
+      e.addEventListener('pointerenter',on);e.addEventListener('pointerleave',off);
+      e.addEventListener('click',()=>open(it.h,lg));
+      e.style.cursor='pointer';
+    });
+    lg.addEventListener('focus',on);lg.addEventListener('blur',off);
+    lg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(it.h,lg)}});
+  });
+}
+
+/* ---------- Verzeichnis (Handy) ---------- */
+const list=document.getElementById('list');
+HOUSES.forEach(h=>{const li=document.createElement('li');
   li.innerHTML=`<button>${esc(h.titel)}<small>${esc((h.adresse||'').replace(/\n/g,' · '))}</small></button>`;
-  li.firstChild.onclick=()=>open(h,li.firstChild);list.append(li);
-});
+  li.firstChild.onclick=()=>open(h,li.firstChild);list.append(li)});
+
+/* ---------- Info-Fenster ---------- */
+const modal=document.getElementById('modal'),card=document.getElementById('card');let last=null;
 function open(h,from){
   last=from;
   const meta=[(h.adresse||'').replace(/\n/g,' · '),h.jahre].filter(Boolean).join('   ·   ');
@@ -180,7 +265,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 const MENU=[['juedische-geschichte-in-sueddeutschland'],['juedische-gemeinde-in-kleineicholzheim'],['ns-zeit-und-das-ende-der-gemeinde'],['menschen-und-orte','Menschen und Orte']];
 const nav=document.getElementById('nav'),vm=document.getElementById('view-map'),vp=document.getElementById('view-page');
 MENU.forEach(([slug,name])=>{const a=document.createElement('a');a.href='#'+slug;a.dataset.slug=slug;
-  a.textContent='+ '+(name||PAGES[slug].titel);nav.append(a)});
+  a.innerHTML=`<span>${esc(name||PAGES[slug].titel)}</span>`;nav.append(a)});
 function render(b){
   if(b.typ==='ueberschrift')return `<h3>${esc(b.text)}</h3>`;
   if(b.typ==='bild')return `<figure><img src="${esc(b.src)}" alt="${esc(b.alt||'')}">${b.unterschrift?`<figcaption>${esc(b.unterschrift)}</figcaption>`:''}</figure>`;
@@ -189,8 +274,7 @@ function render(b){
 }
 function route(){
   const slug=location.hash.slice(1).split('?')[0]||'menschen-und-orte';
-  const pg=PAGES[slug];
-  modal.classList.remove('open');
+  const pg=PAGES[slug];modal.classList.remove('open');
   vm.hidden=!!pg;vp.hidden=!pg;
   if(pg){vp.innerHTML=`<h2>${esc(pg.titel)}</h2>${pg.untertitel?`<div class="sub">${esc(pg.untertitel)}</div>`:''}${pg.bloecke.map(render).join('')}`;
     document.title=pg.titel+' · Kleineicholzheim'}else document.title='Jüdisches Leben in Kleineicholzheim';
@@ -198,12 +282,7 @@ function route(){
   scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
-
-/* ---------- Koordinaten-Hilfe: index.html?edit ---------- */
-if(location.search.includes('edit')){
-  const c=document.getElementById('coords');c.style.display='block';c.textContent='Edit-Modus: auf die Karte klicken';
-  svg.addEventListener('click',e=>{const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());c.textContent=`x:${Math.round(q.x)}, y:${Math.round(q.y)}`});
-}
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>{vm.hidden=false;build();route()});
 </script>
 </body>
 </html>
