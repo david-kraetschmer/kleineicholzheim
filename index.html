@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jüdisches Leben in Kleineicholzheim</title>
 <style>
-:root{--bg:#f3f0e9;--ink:#1b1917;--line:#1b1917;--mute:#8d877c;--acc:#8e2b1f}
+:root{--bg:#ffffff;--ink:#1b1917;--line:#1b1917;--mute:#8d877c;--acc:#8e2b1f}
 *{box-sizing:border-box;margin:0}
 body{background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5}
 .layout{display:grid;grid-template-columns:minmax(320px,28%) 1fr;grid-template-rows:1fr auto;gap:0 clamp(16px,3vw,48px);padding:clamp(24px,3.5vw,56px);min-height:100vh}
@@ -132,13 +132,8 @@ function build(){
   const town=(s,x,y,extra={})=>{const e=el('text',{class:'town',x,y,...extra},gMap);e.textContent=s;return e};
   town('Großeicholzheim',1465.9,245.5);
   /* Eberbach: am Bach entlang, links neben der Linie */
-  {const p0=cp.getPointAtLength(clen*.1),p1=cp.getPointAtLength(clen*.1+60);
-   const ang=Math.atan2(p1.y-p0.y,p1.x-p0.x);
-   const nx=Math.sin(ang),ny=-Math.cos(ang); /* Normale */
-   const side=nx<0?-1:1; /* auf die linke (westliche) Seite */
-   const off=30;
-   const px=p0.x+nx*side*off,py=p0.y+ny*side*off;
-   const e=town('Eberbach',px,py,{'text-anchor':'end',transform:`rotate(${(ang*180/Math.PI).toFixed(1)} ${px} ${py})`})}
+  {const p0=cp.getPointAtLength(clen*.07);
+   town('Eberbach',p0.x+18,p0.y-4)}
   town('Oberschefflenz',1037,1775);
 
   /* Spalten und Abstände, Linienkreuzungen minimieren */
