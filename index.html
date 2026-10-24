@@ -23,19 +23,19 @@ nav a:hover,nav a:focus-visible{background:none;color:var(--acc);outline:none}
 nav a[aria-current],nav a[aria-current]:hover{background:none;border-color:var(--ink);color:var(--ink)}
 .intro{font-size:clamp(.85rem,1.05vw,1.05rem);margin-bottom:8px}
 svg.map{width:100%;height:auto;display:block;overflow:visible}
-.h{font:500 18px Inter,sans-serif;letter-spacing:-.005em}
-.sb,.ad{font:400 16px Inter,sans-serif;fill:var(--ink)}
-.town{font:500 13px Inter,sans-serif;letter-spacing:.04em;fill:#a39d92}
+.h{font:500 42px Inter,sans-serif;letter-spacing:-.005em}
+.sb,.ad{font:400 37px Inter,sans-serif;fill:var(--ink)}
+.town{font:500 34px Inter,sans-serif;letter-spacing:.04em;fill:#a39d92}
 .part{transition:opacity .25s}
 .map.hov .part:not(.on){opacity:.16}
-.conn{fill:none;stroke:#1b191780;stroke-width:1.1;transition:stroke-width .2s}
-.conn.on{stroke:var(--acc);stroke-width:1.6}
+.conn{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round;stroke-dasharray:0 18;transition:stroke .2s}
+.conn.on{stroke:var(--acc);stroke-dasharray:none;stroke-width:4}
 .lab{cursor:pointer;outline:none}
 .lab .h{fill:var(--ink);transition:fill .2s}
 .lab.on .h{fill:var(--acc)}
 .hit{fill:transparent}
 .dot{fill:var(--ink);transform-box:fill-box;transform-origin:center;transition:transform .22s,fill .2s}
-.ring{fill:none;stroke:var(--acc);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.4);transition:.25s}
+.ring{fill:none;stroke:var(--acc);stroke-width:4;opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.4);transition:.25s}
 .cube.on .dot{fill:var(--acc);transform:scale(1.5)}
 .cube.on .ring{opacity:1;transform:scale(1)}
 .index{display:none;margin-top:20px}
@@ -82,7 +82,7 @@ footer a{color:inherit;text-decoration:none}footer a:hover{color:var(--line)}
   <main>
     <section id="view-map">
       <p class="intro">Die letzten Menschen, Familien und Orte der jüdischen Gemeinde vor ihrer Vertreibung und Ermordung durch das NS-Regime.<br>Wähle einen Punkt auf der Karte um mehr zu erfahren</p>
-      <svg id="svg" class="map" viewBox="0 0 1240 900" role="group" aria-label="Modell von Kleineicholzheim"></svg>
+      <svg id="svg" class="map" viewBox="480 200 2200 1610" role="group" aria-label="Karte von Kleineicholzheim"></svg>
       <section class="index" aria-label="Verzeichnis"><ol id="list" style="list-style:none;padding:0"></ol></section>
     </section>
     <article id="view-page" class="page" hidden></article>
@@ -96,82 +96,59 @@ footer a{color:inherit;text-decoration:none}footer a:hover{color:var(--line)}
 <script src="pages.js"></script>
 <script>
 const NS='http://www.w3.org/2000/svg',svg=document.getElementById('svg');
-const W=1240,H=900;
 const el=(n,a={},p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.append(e);return e};
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const paras=t=>(t||'').split(/\n\s*\n/).map(p=>`<p>${esc(p)}</p>`).join('');
 const INK='#1b1917';
 
-/* ---------- Projektion: Grundriss -> schräge Modellansicht ---------- */
-const PLAN={x0:1370,x1:1780,y0:228,y1:1392};
-const TH=22*Math.PI/180,K=.72,cos=Math.cos(TH),sin=Math.sin(TH);
-const raw=(x,y)=>{const dx=x-1545,dy=y-810;return[dx*cos-dy*sin,(dx*sin+dy*cos)*K]};
-const corners=[[PLAN.x0,PLAN.y0],[PLAN.x1,PLAN.y0],[PLAN.x1,PLAN.y1],[PLAN.x0,PLAN.y1]].map(p=>raw(...p));
-const bx=[Math.min(...corners.map(c=>c[0])),Math.max(...corners.map(c=>c[0]))],by=[Math.min(...corners.map(c=>c[1])),Math.max(...corners.map(c=>c[1]))];
-const MAPW=760,MAPH=800,S=Math.min(MAPW/(bx[1]-bx[0]),MAPH/(by[1]-by[0]));
-const CX=W/2,CY=H/2-10,SLAB=10;
-const T=(x,y)=>{const[a,b]=raw(x,y);return[CX+a*S-((bx[0]+bx[1])/2)*S,CY+b*S-((by[0]+by[1])/2)*S]};
-const tp=d=>d.replace(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g,(m,x,y)=>{const[a,b]=T(+x,+y);return a.toFixed(1)+','+b.toFixed(1)});
-const poly=pts=>pts.map(p=>p.join(',')).join(' ');
+/* Straßen, Bach, Grundstücke (aus der SVG-Zeichnung): [Pfad, Strichstärke] */
+const ROADS=[["M1563.76,267.93c29.69,134.67,6.44,212.28-22.44,258.95-13.69,22.12-31.56,42.01-57.16,90.09-29.39,55.2-48.39,90.89-51.44,139.62-3.44,55,17.39,63.92,6.54,114.94-8.24,38.74-21.96,41.66-28.24,81.74-5.04,32.13,2.75,36.8,6.01,96.13,2.15,39.18,4.23,77.03-6.01,118.27-9.15,36.84-24.19,60.52-37.74,83.27,0,0,0,0,0,0-20.56,28.78-67.64,107.23-102.08,207.17-34.35,99.67-44.05,191.27-46.6,252.44", 14], ["M857.47,262.32c7.87,40.08,21.36,92.35,45.66,150.68,33.38,80.13,71.72,134.08,96.06,168.52,57.43,81.25,86.14,121.88,139.88,151.67,59.33,32.89,96.06,52.24,96.06,52.24,29.76,15.33,44.07,21.91,62.21,37.63,25.74,22.29,26.55,34.69,49.87,62.44,33.12,39.41,51.03,37.67,91.83,75.2,33.77,31.07,34.97,46.42,67.41,84.26,83.09,96.92,129.99,84.66,148.3,136.51,20.3,57.46-36.53,74.73-67.41,219.08-10.6,49.56-7.87,69.26-12.45,105.02-2.12,16.55-7.95,45.58-17.88,82.04-8.74,32.07-22.49,74.52-44.67,122.93", 3], ["M1927.79,797.17c-12.49,6.88-31.37,16.33-55.35,24.7-37.22,12.99-71.33,18.01-155.76,20.6-54.16,1.66-85.55,1-163.14.96-46.92-.02-84.95.2-108.76.38", 9], ["M1523.36,588.05l207.65,133.35v87.63l-9.53,123.83-66.68,7.62-51.44,156.21-110.49,108.59c-22.96-3.16-45.91-6.32-68.87-9.48", 3], ["M1417.03,1133.22c-53.16-18.48-106.32-36.97-159.48-55.45-3.93,22.36-7.86,44.72-11.79,67.08.88,37.96,1.77,75.92,2.65,113.87,24.45,26.11,48.9,52.22,73.35,78.33", 9], ["M1289.45,809c8.26-22.18,16.51-44.37,24.77-66.55h32.39l34.29-114.3,96.82-165.74c21.02,12.73,42.03,25.47,63.05,38.2", 3], ["M1245.77,1233.86v-83.82l-37.77-7.62,26.67-144.78h43.82c15.99-31.28,31.94-62.58,47.97-93.85l9.36-18.25", 3]];
+const CREEK=1; /* Index des Baches in ROADS */
+const LH=47; /* Zeilenabstand der Beschriftung */
 
 function build(){
   svg.innerHTML='';
-  const g0=el('g',{},svg);
-  /* Platte */
-  const C=[[PLAN.x0,PLAN.y0],[PLAN.x1,PLAN.y0],[PLAN.x1,PLAN.y1],[PLAN.x0,PLAN.y1]].map(p=>T(...p));
-  const under=C.map(p=>[p[0],p[1]+SLAB]);
-  el('polygon',{points:poly(under),fill:'#e1ddd3',stroke:'#111','stroke-width':1.2,'stroke-linejoin':'round'},g0);
-  [[0,1],[1,2],[2,3],[3,0]].forEach(([a,b])=>{const mid=(C[a][1]+C[b][1])/2;if(mid>C.reduce((s,p)=>s+p[1],0)/4)
-    el('polygon',{points:poly([C[a],C[b],under[b],under[a]]),fill:'#e9e5dc',stroke:'#111','stroke-width':1.2,'stroke-linejoin':'round'},g0)});
-  el('polygon',{points:poly(C),fill:'#fbfaf6',stroke:'#111','stroke-width':1.4,'stroke-linejoin':'round'},g0);
-  /* Straßen & Grundstücke (auf die Platte begrenzt) */
-  const defs=el('defs',{},g0);const cp=el('clipPath',{id:'plateclip'},defs);el('polygon',{points:poly(C)},cp);
-  const gr=el('g',{'clip-path':'url(#plateclip)'},g0);
-  const road=(d,w,c='#111')=>el('path',{d:tp(d),fill:'none',stroke:c,'stroke-width':w,'stroke-linecap':'round','stroke-linejoin':'round'},gr);
-  road('M1610,400 L1535,525 L1535,600 L1480,620 L1465,670 M1645,497 L1805,600 L1805,740 L1745,770 L1700,860 L1620,975 L1565,968',1,'#a9a49a');
-  road('M1130,246 C1150,350 1220,470 1300,560 C1350,610 1430,640 1480,675 C1530,710 1560,760 1600,790 C1650,830 1720,880 1750,940 C1760,1000 1700,1100 1670,1250 C1655,1310 1645,1340 1637,1365',1.5);
-  road('M1675,252 C1690,300 1695,380 1650,450 C1610,500 1580,560 1575,610 C1572,650 1590,680 1582,700 C1575,740 1560,760 1555,800 C1552,860 1565,900 1560,950 C1550,1000 1500,1030 1480,1080 C1450,1150 1420,1250 1413,1365',5);
-  road('M1585,694 L1800,694 C1880,694 1930,685 1956,659',4);
-  road('M1437,875 L1560,918 M1437,875 L1430,925 L1430,1015 L1485,1073',3);
-  /* Ortsnamen */
-  {const[a,b]=T(1690,170);const e=el('text',{class:'town',x:a,y:b,'text-anchor':'middle'},g0);e.textContent='Großeicholzheim'}
-  /* Eberbach: Beschriftung direkt am Bach (dünne Linie) */
-  {const P=[[1300,560],[1350,610],[1430,640],[1480,675]];
-   const bz=t=>{const u=1-t;return[0,1].map(k=>u*u*u*P[0][k]+3*u*u*t*P[1][k]+3*u*t*t*P[2][k]+t*t*t*P[3][k])};
-   const A=T(...bz(.5)),B2=T(...bz(.9));
-   const ang=Math.atan2(B2[1]-A[1],B2[0]-A[0]);
-   const px=A[0]+Math.sin(ang)*9,py=A[1]-Math.cos(ang)*9;
-   const e=el('text',{class:'town',x:px,y:py,transform:`rotate(${(ang*180/Math.PI).toFixed(1)} ${px} ${py})`},g0);e.textContent='Eberbach'}
-  /* Oberschefflenz: unterhalb der Plattenkante, mit sicherem Abstand */
-  {const[a]=T(1637,1365);const L0=C[3],R0=C[2];
-   const edge=x=>L0[1]+(x-L0[0])*(R0[1]-L0[1])/(R0[0]-L0[0]);
-   const e=el('text',{class:'town',x:0,y:0},g0);e.textContent='Oberschefflenz';
-   const w=e.getComputedTextLength()||90,x0=a-50;
-   e.setAttribute('x',x0);e.setAttribute('y',edge(x0+w)+SLAB+30)}
-
-  /* Datenaufbereitung */
-  const items=HOUSES.map(h=>{const[x,y]=T(h.x,h.y);return{h,id:h.id,x,y}});
-  const byX=[...items].sort((a,b)=>a.x-b.x);const half=Math.ceil(items.length/2);
-  byX.forEach((it,i)=>it.side=i<half?'L':'R');
+  const gMap=el('g',{},svg);
+  ROADS.forEach(([d,w])=>el('path',{d,fill:'none',stroke:INK,'stroke-width':w,'stroke-linecap':'round','stroke-linejoin':'round'},gMap));
+  const creek=ROADS[CREEK][0];
+  const cp=el('path',{d:creek,fill:'none'},gMap);
+  const clen=cp.getTotalLength();
 
   /* Textblöcke messen */
   const probe=el('text',{class:'h',x:0,y:-999},svg);
-  const wid=(s,cls='h')=>{probe.setAttribute('class',cls);probe.textContent=s;return probe.getComputedTextLength()};
-  const wrap=(s,max)=>{const w=s.split(' ');const out=[];let cur='';w.forEach(x=>{if((cur+' '+x).trim().length>max&&cur){out.push(cur);cur=x}else cur=(cur+' '+x).trim()});if(cur)out.push(cur);return out};
-  items.forEach(it=>{
-    const h=it.h;
-    it.head=wrap(h.titel,24);
-    it.sub=(h.untertitel?h.untertitel.split('\n'):[]).flatMap(l=>wrap(l,30));
-    it.ad=(h.adresse?h.adresse.split('\n'):[]);
-    it.hw=Math.max(...it.head.map(l=>wid(l)))+4;
-    it.bw=Math.max(it.hw,...it.sub.map(l=>wid(l,'sb')),...it.ad.map(l=>wid(l,'ad')))+4;
-    it.hh=it.head.length*23;
-    it.bh=it.hh+8+(it.sub.length+it.ad.length)*21+4;
+  const wid=(s,cls)=>{probe.setAttribute('class',cls);probe.textContent=s;return probe.getComputedTextLength()};
+  const LEFT_IDS=['samuel','mikwe','moses','elsa-berta','kaufmann','westheimer'];
+  const wrap=(str,cls,max)=>{const w=str.split(' ');const out=[];let cur='';
+    w.forEach(x=>{const t=cur?cur+' '+x:x;if(cur&&wid(t,cls)>max){out.push(cur);cur=x}else cur=t});
+    if(cur)out.push(cur);return out};
+  const items=HOUSES.map(h=>{
+    const left=LEFT_IDS.includes(h.id),mx=left?470:700;
+    const rows=[];
+    wrap(h.titel,'h',mx).forEach(l=>rows.push([l,'h']));
+    (h.untertitel?h.untertitel.split('\n'):[]).forEach(l=>wrap(l,'sb',mx).forEach(m=>rows.push([m,'sb'])));
+    (h.adresse?h.adresse.split('\n'):[]).forEach(l=>wrap(l,'ad',mx).forEach(m=>rows.push([m,'ad'])));
+    const hw=wid(rows[0][0],'h');
+    const bw=Math.max(...rows.map(r=>wid(r[0],r[1])));
+    return{h,id:h.id,x:h.x,y:h.y,rows,hw,bw,bh:(rows.length-1)*LH+30,hh:30,side:left?'L':'R'}
   });
+  const t1=wid('Großeicholzheim','town'),t2=wid('Oberschefflenz','town'),t3=wid('Eberbach','town');
   probe.remove();
 
+  /* Ortsnamen */
+  const town=(s,x,y,extra={})=>{const e=el('text',{class:'town',x,y,...extra},gMap);e.textContent=s;return e};
+  town('Großeicholzheim',1465.9,245.5);
+  /* Eberbach: am Bach entlang, links neben der Linie */
+  {const p0=cp.getPointAtLength(clen*.1),p1=cp.getPointAtLength(clen*.1+60);
+   const ang=Math.atan2(p1.y-p0.y,p1.x-p0.x);
+   const nx=Math.sin(ang),ny=-Math.cos(ang); /* Normale */
+   const side=nx<0?-1:1; /* auf die linke (westliche) Seite */
+   const off=30;
+   const px=p0.x+nx*side*off,py=p0.y+ny*side*off;
+   const e=town('Eberbach',px,py,{'text-anchor':'end',transform:`rotate(${(ang*180/Math.PI).toFixed(1)} ${px} ${py})`})}
+  town('Oberschefflenz',1037,1775);
+
   /* Spalten und Abstände, Linienkreuzungen minimieren */
-  const COLW=250,GAP=18,TOP=16,BOT=H-16;
+  const XL=400,XR=2040,GAP=46,TOP=230,BOT=1800;
   const segX=(p,q,r,t)=>{const o=(a,b,c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
     return o(p,q,r)*o(p,q,t)<0&&o(r,t,p)*o(r,t,q)<0};
   const segRect=(p,q,r)=>{let t0=0,t1=1;const dx=q[0]-p[0],dy=q[1]-p[1];
@@ -180,10 +157,10 @@ function build(){
     return true};
   ['L','R'].forEach(side=>{
     const L=items.filter(i=>i.side===side).sort((a,b)=>a.y-b.y);
-    const place=()=>L.forEach(it=>{it.x0=side==='L'?4:W-COLW-4;it.uly=it.top+it.hh+2;
-      it.a=side==='L'?[it.x0+it.hw,it.uly]:[it.x0,it.uly];it.b=[it.x,it.y]});
+    const place=()=>L.forEach(it=>{it.x0=side==='L'?XL:XR;it.ty=it.top+30;
+      it.a=[side==='L'?it.x0+it.hw+16:it.x0-16,it.ty-13];it.b=[it.x,it.y]});
     const relax=()=>{
-      L.forEach(it=>{it.top=it.y-it.hh-4});
+      L.forEach(it=>{it.top=it.y-it.hh});
       for(let r=0;r<3;r++){
         L.forEach((it,i)=>{it.top=Math.max(it.top,i?L[i-1].top+L[i-1].bh+GAP:TOP)});
         for(let i=L.length-1;i>=0;i--){const lim=i<L.length-1?L[i+1].top-GAP:BOT;L[i].top=Math.min(L[i].top,lim-L[i].bh)}
@@ -191,11 +168,11 @@ function build(){
       }
       place();
     };
-    const cost=()=>{let c=0,len=0;L.forEach((p,i)=>{len+=Math.hypot(p.a[0]-p.b[0],p.a[1]-p.b[1]);for(let j=i+1;j<L.length;j++)if(segX(p.a,p.b,L[j].a,L[j].b))c+=1;L.forEach(q=>{if(q!==p&&segRect(p.a,p.b,[q.x0-4,q.top-4,q.x0+q.bw+4,q.top+q.bh+4]))c+=1})});return c*10000+len};
+    const cost=()=>{let c=0,len=0;L.forEach((p,i)=>{len+=Math.hypot(p.a[0]-p.b[0],p.a[1]-p.b[1]);for(let j=i+1;j<L.length;j++)if(segX(p.a,p.b,L[j].a,L[j].b))c+=1;L.forEach(q=>{if(q!==p&&segRect(p.a,p.b,[q.x0-10,q.top-40,q.x0+q.bw+10,q.top+q.bh+10]))c+=1})});return c*10000+len};
     const feasible=()=>{for(let i=0;i<L.length;i++){const lo=i?L[i-1].top+L[i-1].bh+GAP:TOP;if(L[i].top<lo-.01)return false}const z=L[L.length-1];return z.top+z.bh<=BOT+.01};
     const tune=()=>{let best=cost();
-      for(let pass=0;pass<12;pass++){let imp=false;
-        for(let k=0;k<L.length;k++)for(const d of[-48,-24,-12,-6,6,12,24,48]){
+      for(let pass=0;pass<14;pass++){let imp=false;
+        for(let k=0;k<L.length;k++)for(const d of[-120,-60,-30,-15,15,30,60,120]){
           const old=L[k].top;L[k].top=old+d;
           if(!feasible()){L[k].top=old;continue}
           place();const c=cost();
@@ -209,25 +186,24 @@ function build(){
   });
 
   /* Ebenen: Linien, Punkte, Beschriftung */
-  const gLines=el('g',{},svg),gCubes=el('g',{},svg),gLabs=el('g',{},svg);
+  const gLines=el('g',{},svg),gDots=el('g',{},svg),gLabs=el('g',{},svg);
   const parts={};
+  let minX=XL-20,maxX=0,minY=200,maxY=1810;
+  items.forEach(it=>{maxX=Math.max(maxX,it.x0+it.bw+20)});
   [...items].sort((a,b)=>a.y-b.y).forEach(it=>{
-    const cg=el('g',{class:'part cube'},gCubes);
-    el('circle',{class:'ring',cx:it.x,cy:it.y,r:12},cg);
-    el('circle',{class:'dot',cx:it.x,cy:it.y,r:5},cg);
-    el('circle',{class:'hit',cx:it.x,cy:it.y,r:14},cg);
-    it.cube=cg;it.tx=it.x;it.ty=it.y;
+    const cg=el('g',{class:'part cube'},gDots);
+    el('circle',{class:'ring',cx:it.x,cy:it.y,r:26},cg);
+    el('circle',{class:'dot',cx:it.x,cy:it.y,r:10},cg);
+    el('circle',{class:'hit',cx:it.x,cy:it.y,r:30},cg);
+    it.cube=cg;
   });
   items.forEach(it=>{
-    const x0=it.x0,uly=it.uly,w=it.hw;
-    const d=it.side==='L'?`M${x0},${uly} H${x0+w} L${it.tx},${it.ty}`:`M${it.tx},${it.ty} L${x0},${uly} H${x0+w}`;
-    const ln=el('path',{class:'part conn',d,stroke:INK},gLines);
+    const dx=it.a[0]-it.x,dy=it.a[1]-it.y,L=Math.hypot(dx,dy),s=26/L;
+    const st=[it.x+dx*s,it.y+dy*s];
+    const ln=el('path',{class:'part conn',d:`M${st[0].toFixed(1)},${st[1].toFixed(1)} L${it.a[0].toFixed(1)},${it.a[1].toFixed(1)}`},gLines);
     const lg=el('g',{class:'part lab',tabindex:0,role:'button','aria-label':it.h.titel+' – Details öffnen'},gLabs);
-    el('rect',{class:'hit',x:x0-4,y:it.top-4,width:Math.max(w,COLW-30),height:it.bh+8},lg);
-    it.head.forEach((l,j)=>{const t=el('text',{class:'h',x:x0,y:it.top+18+j*23},lg);t.textContent=l});
-    let yy=uly+22;
-    it.sub.forEach(l=>{const t=el('text',{class:'sb',x:x0,y:yy},lg);t.textContent=l;yy+=21});
-    it.ad.forEach(l=>{const t=el('text',{class:'ad',x:x0,y:yy},lg);t.textContent=l;yy+=21});
+    el('rect',{class:'hit',x:it.x0-12,y:it.ty-40,width:it.bw+24,height:it.bh+14},lg);
+    it.rows.forEach(([l,c],j)=>{const t=el('text',{class:c,x:it.x0,y:it.ty+j*LH},lg);t.textContent=l});
     parts[it.id]=[ln,lg,it.cube];
     const on=()=>{svg.classList.add('hov');parts[it.id].forEach(e=>e.classList.add('on'))};
     const off=()=>{svg.classList.remove('hov');parts[it.id].forEach(e=>e.classList.remove('on'))};
@@ -239,6 +215,7 @@ function build(){
     lg.addEventListener('focus',on);lg.addEventListener('blur',off);
     lg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(it.h,lg)}});
   });
+  svg.setAttribute('viewBox',`${minX} ${minY} ${maxX-minX} ${maxY-minY}`);
 }
 
 /* ---------- Verzeichnis (Handy) ---------- */
