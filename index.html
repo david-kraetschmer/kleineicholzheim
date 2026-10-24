@@ -12,7 +12,7 @@ body{background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Helvetic
 h1{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;font-size:clamp(1.9rem,2.7vw,3rem);line-height:1.04;letter-spacing:-.01em;text-wrap:balance}
 h1 a{color:inherit;text-decoration:none}
 nav{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin-top:clamp(28px,4vw,60px)}
-nav a{width:fit-content;border:1px solid transparent;padding:.35em .75em;margin-left:-.75em;font-size:clamp(.92rem,1.05vw,1.1rem);color:var(--ink);text-decoration:none;transition:.15s}
+nav a{width:fit-content;border:1px solid transparent;border-radius:8px;padding:.35em .75em;margin-left:-.75em;font-size:clamp(.92rem,1.05vw,1.1rem);color:var(--ink);text-decoration:none;transition:.15s}
 nav a:hover,nav a:focus-visible{background:none;color:var(--acc);outline:none}
 nav a[aria-current],nav a[aria-current]:hover{background:none;border-color:var(--ink);color:var(--ink)}
 .intro{font-size:clamp(.85rem,1.05vw,1.05rem);margin-bottom:8px}
@@ -36,10 +36,10 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .index button{all:unset;cursor:pointer;display:block;width:100%;padding:10px 0;border-bottom:1px solid #1112;font:500 1.05rem "Helvetica Neue",Helvetica,Arial,sans-serif}
 .index button small{display:block;font:400 .85rem "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--mute)}
 .page{max-width:64ch}
-.page h2{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;font-size:clamp(1.8rem,2.6vw,2.8rem);line-height:1.08;margin-bottom:.4em}
+.page h2{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;font-size:clamp(1.1rem,1.35vw,1.4rem);line-height:1.08;margin-bottom:1.1em}
 .page .sub{color:var(--mute);margin-bottom:1.2em}
 .page p{margin-bottom:1em;white-space:pre-line}
-.page h3{font:500 1.4rem "Helvetica Neue",Helvetica,Arial,sans-serif;margin:1.4em 0 .4em}
+.page h3{font:500 1.05rem "Helvetica Neue",Helvetica,Arial,sans-serif;margin:1.4em 0 .4em}
 .page figure{margin:1.5em 0}.page figure img{width:100%;display:block}
 .page figcaption{font-size:.85rem;color:var(--mute);margin-top:6px}
 .page .infobox{border:1px solid var(--line);padding:14px 16px;margin:1.5em 0}
@@ -57,7 +57,7 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .card p{margin-bottom:1em}
 .x{position:absolute;top:12px;right:14px;background:none;border:1px solid var(--line);width:34px;height:34px;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--line)}
 .x:hover{background:var(--line);color:var(--bg)}
-footer{grid-column:1/-1;margin-top:32px;padding-top:12px;border-top:1px solid #1b191733;display:flex;justify-content:space-between;gap:20px;font-size:.82rem;color:var(--mute)}
+footer{grid-column:1/-1;margin-top:32px;padding-top:12px;border-top:1px solid #1b191733;display:flex;justify-content:flex-end;gap:20px;font-size:.82rem;color:var(--mute)}
 footer a{color:inherit;text-decoration:none}footer a:hover{color:var(--line)}
 @media(max-width:820px){
  .layout{grid-template-columns:1fr;padding:20px}
@@ -81,7 +81,7 @@ footer a{color:inherit;text-decoration:none}footer a:hover{color:var(--line)}
     </section>
     <article id="view-page" class="page" hidden></article>
   </main>
-  <footer><span>Ein Erinnerungsprojekt · Schematische Karte, nicht maßstabsgetreu</span><a href="#impressum">Impressum</a></footer>
+  <footer><a href="#impressum">Impressum</a></footer>
 </div>
 
 <div id="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="card" id="card"></div></div>
