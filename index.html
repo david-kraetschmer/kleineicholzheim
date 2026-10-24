@@ -5,17 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jüdisches Leben in Kleineicholzheim</title>
 <style>
-@font-face{font-family:Outfit;font-weight:400;src:url(fonts/outfit-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:Outfit;font-weight:500;src:url(fonts/outfit-latin-500-normal.woff2) format("woff2")}
-@font-face{font-family:Outfit;font-weight:600;src:url(fonts/outfit-latin-600-normal.woff2) format("woff2")}
-@font-face{font-family:Inter;font-weight:400;src:url(fonts/inter-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:Inter;font-weight:500;src:url(fonts/inter-latin-500-normal.woff2) format("woff2")}
-@font-face{font-family:Inter;font-weight:600;src:url(fonts/inter-latin-600-normal.woff2) format("woff2")}
 :root{--bg:#f3f0e9;--ink:#1b1917;--line:#1b1917;--mute:#8d877c;--acc:#8e2b1f}
 *{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5}
+body{background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5}
 .layout{display:grid;grid-template-columns:minmax(320px,28%) 1fr;grid-template-rows:1fr auto;gap:0 clamp(16px,3vw,48px);padding:clamp(24px,3.5vw,56px);min-height:100vh}
-h1{font-family:Outfit,sans-serif;font-weight:500;font-size:clamp(1.9rem,2.7vw,3rem);line-height:1.04;letter-spacing:-.01em;text-wrap:balance}
+h1{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;font-size:clamp(1.9rem,2.7vw,3rem);line-height:1.04;letter-spacing:-.01em;text-wrap:balance}
 h1 a{color:inherit;text-decoration:none}
 nav{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin-top:clamp(28px,4vw,60px)}
 nav a{width:fit-content;border:1px solid transparent;padding:.35em .75em;margin-left:-.75em;font-size:clamp(.92rem,1.05vw,1.1rem);color:var(--ink);text-decoration:none;transition:.15s}
@@ -23,9 +17,9 @@ nav a:hover,nav a:focus-visible{background:none;color:var(--acc);outline:none}
 nav a[aria-current],nav a[aria-current]:hover{background:none;border-color:var(--ink);color:var(--ink)}
 .intro{font-size:clamp(.85rem,1.05vw,1.05rem);margin-bottom:8px}
 svg.map{width:100%;height:auto;display:block;overflow:visible}
-.h{font:500 42px Inter,sans-serif;letter-spacing:-.005em}
-.sb,.ad{font:400 37px Inter,sans-serif;fill:var(--ink)}
-.town{font:500 34px Inter,sans-serif;letter-spacing:.04em;fill:#a39d92}
+.h{font:500 42px "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.005em}
+.sb,.ad{font:400 37px "Helvetica Neue",Helvetica,Arial,sans-serif;fill:var(--ink)}
+.town{font:500 34px "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.04em;fill:#a39d92}
 .part{transition:opacity .25s}
 .map.hov .part:not(.on){opacity:.16}
 .conn{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round;stroke-dasharray:0 18;transition:stroke .2s}
@@ -39,13 +33,13 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .cube.on .dot{fill:var(--acc);transform:scale(1.5)}
 .cube.on .ring{opacity:1;transform:scale(1)}
 .index{display:none;margin-top:20px}
-.index button{all:unset;cursor:pointer;display:block;width:100%;padding:10px 0;border-bottom:1px solid #1112;font:500 1.05rem Outfit,sans-serif}
-.index button small{display:block;font:400 .85rem Inter,sans-serif;color:var(--mute)}
+.index button{all:unset;cursor:pointer;display:block;width:100%;padding:10px 0;border-bottom:1px solid #1112;font:500 1.05rem "Helvetica Neue",Helvetica,Arial,sans-serif}
+.index button small{display:block;font:400 .85rem "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--mute)}
 .page{max-width:64ch}
-.page h2{font-family:Outfit,sans-serif;font-weight:500;font-size:clamp(1.8rem,2.6vw,2.8rem);line-height:1.08;margin-bottom:.4em}
+.page h2{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;font-size:clamp(1.8rem,2.6vw,2.8rem);line-height:1.08;margin-bottom:.4em}
 .page .sub{color:var(--mute);margin-bottom:1.2em}
 .page p{margin-bottom:1em;white-space:pre-line}
-.page h3{font:500 1.4rem Outfit,sans-serif;margin:1.4em 0 .4em}
+.page h3{font:500 1.4rem "Helvetica Neue",Helvetica,Arial,sans-serif;margin:1.4em 0 .4em}
 .page figure{margin:1.5em 0}.page figure img{width:100%;display:block}
 .page figcaption{font-size:.85rem;color:var(--mute);margin-top:6px}
 .page .infobox{border:1px solid var(--line);padding:14px 16px;margin:1.5em 0}
@@ -56,7 +50,7 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .card{background:var(--bg);max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:clamp(22px,4vw,44px);border:0;border-top:1px solid var(--ink);position:relative;animation:in .25s ease}
 @keyframes in{from{opacity:0;transform:translateY(12px)}}
 .card .k{font-size:.8rem;color:var(--mute)}
-.card h3{font:500 clamp(1.8rem,4vw,2.6rem)/1.05 Outfit,sans-serif;margin:.5em 0 .25em}
+.card h3{font:500 clamp(1.8rem,4vw,2.6rem)/1.05 "Helvetica Neue",Helvetica,Arial,sans-serif;margin:.5em 0 .25em}
 .card .sub{color:var(--mute);white-space:pre-line}
 .meta{margin:16px 0;font-size:.95rem;color:#111}
 .card img{width:100%;margin-bottom:16px}
