@@ -53,7 +53,9 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .card h3{font:500 clamp(1.8rem,4vw,2.6rem)/1.05 "Helvetica Neue",Helvetica,Arial,sans-serif;margin:.5em 0 .25em}
 .card .sub{color:var(--mute);white-space:pre-line}
 .meta{margin:16px 0;font-size:.95rem;color:#111}
-.card img{width:100%;margin-bottom:16px}
+.card img{width:100%;display:block;margin:0 0 16px}
+.card p+img{margin-top:8px}
+.card h3+img,.card .sub+img,.card .meta+img{margin-top:20px}
 .card p{margin-bottom:1em}
 .x{position:absolute;top:12px;right:14px;background:none;border:1px solid var(--line);width:34px;height:34px;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--line)}
 .x:hover{background:var(--line);color:var(--bg)}
@@ -217,10 +219,11 @@ HOUSES.forEach(h=>{const li=document.createElement('li');
 const modal=document.getElementById('modal'),card=document.getElementById('card');let last=null;
 function open(h,from){
   last=from;
+  const imgs=[].concat(h.fotos||h.foto||[]),im=f=>`<img src="${esc(f)}" alt="${esc(h.titel)}" loading="lazy">`;
   const meta=[(h.adresse||'').replace(/\n/g,' · '),h.jahre].filter(Boolean).join('   ·   ');
   card.innerHTML=`<button class="x" aria-label="Schließen">×</button><div class="k">${esc(h.kategorie)}</div>
   <h3 id="mt">${esc(h.titel)}</h3><div class="sub">${esc(h.untertitel)}</div>
-  ${meta?`<div class="meta">${esc(meta)}</div>`:''}${h.foto?`<img src="${esc(h.foto)}" alt="${esc(h.titel)}">`:''}${paras(h.text)}`;
+  ${meta?`<div class="meta">${esc(meta)}</div>`:''}${imgs.slice(0,1).map(im).join('')}${paras(h.text)}${imgs.slice(1).map(im).join('')}`;
   card.querySelector('.x').onclick=close;modal.classList.add('open');card.querySelector('.x').focus();
 }
 function close(){modal.classList.remove('open');last&&last.focus&&last.focus()}
