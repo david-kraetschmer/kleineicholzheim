@@ -53,9 +53,10 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .card h3{font:500 clamp(1.8rem,4vw,2.6rem)/1.05 "Helvetica Neue",Helvetica,Arial,sans-serif;margin:.5em 0 .25em}
 .card .sub{color:var(--mute);white-space:pre-line}
 .meta{margin:16px 0;font-size:.95rem;color:#111}
-.card img{width:100%;display:block;margin:0 0 16px}
-.card p+img{margin-top:8px}
-.card h3+img,.card .sub+img,.card .meta+img{margin-top:20px}
+.card figure{margin:0 0 18px}.card img{width:100%;display:block}
+.card figcaption{font-size:.82rem;color:var(--mute);margin-top:6px;line-height:1.35}
+.card p+figure{margin-top:8px}
+.card h3+figure,.card .sub+figure,.card .meta+figure{margin-top:20px}
 .card p{margin-bottom:1em}
 .x{position:absolute;top:12px;right:14px;background:none;border:1px solid var(--line);width:34px;height:34px;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--line)}
 .x:hover{background:var(--line);color:var(--bg)}
@@ -219,7 +220,7 @@ HOUSES.forEach(h=>{const li=document.createElement('li');
 const modal=document.getElementById('modal'),card=document.getElementById('card');let last=null;
 function open(h,from){
   last=from;
-  const imgs=[].concat(h.fotos||h.foto||[]),im=f=>`<img src="${esc(f)}" alt="${esc(h.titel)}" loading="lazy">`;
+  const imgs=[].concat(h.fotos||h.foto||[]),im=f=>{const src=typeof f==='string'?f:f.src,cap=typeof f==='string'?'':(f.unterschrift||'');return `<figure><img src="${esc(src)}" alt="${esc(cap||h.titel)}" loading="lazy">${cap?`<figcaption>${esc(cap)}</figcaption>`:''}</figure>`};
   const meta=[(h.adresse||'').replace(/\n/g,' · '),h.jahre].filter(Boolean).join('   ·   ');
   card.innerHTML=`<button class="x" aria-label="Schließen">×</button><div class="k">${esc(h.kategorie)}</div>
   <h3 id="mt">${esc(h.titel)}</h3><div class="sub">${esc(h.untertitel)}</div>
