@@ -53,9 +53,11 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .card h3{font:500 clamp(1.8rem,4vw,2.6rem)/1.05 "Helvetica Neue",Helvetica,Arial,sans-serif;margin:.5em 0 .25em}
 .card .sub{color:var(--mute);white-space:pre-line}
 .meta{margin:16px 0;font-size:.95rem;color:#111}
-.card figure{margin:0 0 18px}.card img{width:100%;display:block}
+.card figure{margin:0 0 18px;clear:both}.card img{width:100%;display:block}
+.card figure.klein{float:right;clear:right;width:36%;margin:4px 0 12px 22px}
 .card figcaption{font-size:.82rem;color:var(--mute);margin-top:6px;line-height:1.35}
 .card p+figure{margin-top:8px}
+@media(max-width:520px){.card figure.klein{float:none;width:60%;margin:0 0 18px}}
 .card h3+figure,.card .sub+figure,.card .meta+figure{margin-top:20px}
 .card p{margin-bottom:1em}
 .x{position:absolute;top:12px;right:14px;background:none;border:1px solid var(--line);width:34px;height:34px;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--line)}
@@ -220,11 +222,18 @@ HOUSES.forEach(h=>{const li=document.createElement('li');
 const modal=document.getElementById('modal'),card=document.getElementById('card');let last=null;
 function open(h,from){
   last=from;
-  const imgs=[].concat(h.fotos||h.foto||[]),im=f=>{const src=typeof f==='string'?f:f.src,cap=typeof f==='string'?'':(f.unterschrift||'');return `<figure><img src="${esc(src)}" alt="${esc(cap||h.titel)}" loading="lazy">${cap?`<figcaption>${esc(cap)}</figcaption>`:''}</figure>`};
+  const imgs=[].concat(h.fotos||h.foto||[]),used=new Set([0]);
+  const im=i=>{const f=imgs[i];if(!f)return '';const src=typeof f==='string'?f:f.src,cap=typeof f==='string'?'':(f.unterschrift||''),kl=typeof f!=='string'&&f.groesse==='klein';
+    return `<figure${kl?' class="klein"':''}><img src="${esc(src)}" alt="${esc(cap||h.titel)}" loading="lazy">${cap?`<figcaption>${esc(cap)}</figcaption>`:''}</figure>`};
+  const body=(h.text||'').split(/\n\s*\n/).map(par=>{let out='',buf=[];
+    const flush=()=>{if(buf.length)out+=`<p>${esc(buf.join('\n'))}</p>`;buf=[]};
+    par.split('\n').forEach(l=>{const m=l.trim().match(/^\{\{foto:(\d+)\}\}$/);if(m){flush();used.add(+m[1]);out+=im(+m[1])}else buf.push(l)});
+    flush();return out}).join('');
+  const tail=imgs.map((f,i)=>used.has(i)?'':im(i)).join('');
   const meta=[(h.adresse||'').replace(/\n/g,' · '),h.jahre].filter(Boolean).join('   ·   ');
   card.innerHTML=`<button class="x" aria-label="Schließen">×</button><div class="k">${esc(h.kategorie)}</div>
   <h3 id="mt">${esc(h.titel)}</h3><div class="sub">${esc(h.untertitel)}</div>
-  ${meta?`<div class="meta">${esc(meta)}</div>`:''}${imgs.slice(0,1).map(im).join('')}${paras(h.text)}${imgs.slice(1).map(im).join('')}`;
+  ${meta?`<div class="meta">${esc(meta)}</div>`:''}${im(0)}${body}${tail}`;
   card.querySelector('.x').onclick=close;modal.classList.add('open');card.querySelector('.x').focus();
 }
 function close(){modal.classList.remove('open');last&&last.focus&&last.focus()}
