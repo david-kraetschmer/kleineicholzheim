@@ -17,9 +17,9 @@ nav a:hover,nav a:focus-visible{background:none;color:var(--acc);outline:none}
 nav a[aria-current],nav a[aria-current]:hover{background:none;border-color:var(--ink);color:var(--ink)}
 .intro{font-size:clamp(.85rem,1.05vw,1.05rem);margin-bottom:8px}
 svg.map{width:100%;height:auto;display:block;overflow:visible}
-.h{font:500 var(--fs,42px) "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.005em}
-.sb,.ad{font:400 var(--fs,42px) "Helvetica Neue",Helvetica,Arial,sans-serif;fill:var(--ink)}
-.town{font:400 calc(var(--fs,42px)*.62) "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.04em;fill:#c2beb6}
+.h{font:500 42px "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.005em}
+.sb,.ad{font:400 37px "Helvetica Neue",Helvetica,Arial,sans-serif;fill:var(--ink)}
+.town{font:400 26px "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.04em;fill:#c2beb6}
 .part{transition:opacity .25s}
 .map.hov .part:not(.on){opacity:.16}
 .conn{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round;stroke-dasharray:0 18;transition:stroke .2s}
@@ -103,10 +103,9 @@ const INK='#1b1917';
 /* Straßen, Bach, Grundstücke (aus der SVG-Zeichnung): [Pfad, Strichstärke] */
 const ROADS=[["M1563.76,267.93c29.69,134.67,6.44,212.28-22.44,258.95-13.69,22.12-31.56,42.01-57.16,90.09-29.39,55.2-48.39,90.89-51.44,139.62-3.44,55,17.39,63.92,6.54,114.94-8.24,38.74-21.96,41.66-28.24,81.74-5.04,32.13,2.75,36.8,6.01,96.13,2.15,39.18,4.23,77.03-6.01,118.27-9.15,36.84-24.19,60.52-37.74,83.27,0,0,0,0,0,0-20.56,28.78-67.64,107.23-102.08,207.17-34.35,99.67-44.05,191.27-46.6,252.44", 14], ["M857.47,262.32c7.87,40.08,21.36,92.35,45.66,150.68,33.38,80.13,71.72,134.08,96.06,168.52,57.43,81.25,86.14,121.88,139.88,151.67,59.33,32.89,96.06,52.24,96.06,52.24,29.76,15.33,44.07,21.91,62.21,37.63,25.74,22.29,26.55,34.69,49.87,62.44,33.12,39.41,51.03,37.67,91.83,75.2,33.77,31.07,34.97,46.42,67.41,84.26,83.09,96.92,129.99,84.66,148.3,136.51,20.3,57.46-36.53,74.73-67.41,219.08-10.6,49.56-7.87,69.26-12.45,105.02-2.12,16.55-7.95,45.58-17.88,82.04-8.74,32.07-22.49,74.52-44.67,122.93", 3], ["M1927.79,797.17c-12.49,6.88-31.37,16.33-55.35,24.7-37.22,12.99-71.33,18.01-155.76,20.6-54.16,1.66-85.55,1-163.14.96-46.92-.02-84.95.2-108.76.38", 9], ["M1523.36,588.05l207.65,133.35v87.63l-9.53,123.83-66.68,7.62-51.44,156.21-110.49,108.59c-22.96-3.16-45.91-6.32-68.87-9.48", 3], ["M1417.03,1133.22c-53.16-18.48-106.32-36.97-159.48-55.45-3.93,22.36-7.86,44.72-11.79,67.08.88,37.96,1.77,75.92,2.65,113.87,24.45,26.11,48.9,52.22,73.35,78.33", 9], ["M1289.45,809c8.26-22.18,16.51-44.37,24.77-66.55h32.39l34.29-114.3,96.82-165.74c21.02,12.73,42.03,25.47,63.05,38.2", 3], ["M1245.77,1233.86v-83.82l-37.77-7.62,26.67-144.78h43.82c15.99-31.28,31.94-62.58,47.97-93.85l9.36-18.25", 3]];
 const CREEK=1; /* Index des Baches in ROADS */
-let LH=47; /* Zeilenabstand der Beschriftung (wird in build() skaliert) */
+const LH=47; /* Zeilenabstand der Beschriftung */
 
-function build(FS=42){
-  const k=FS/42;LH=47*k;svg.style.setProperty('--fs',FS+'px');
+function build(){
   svg.innerHTML='';
   const gMap=el('g',{},svg);
   ROADS.forEach(([d,w])=>el('path',{d,fill:'none',stroke:INK,'stroke-width':w,'stroke-linecap':'round','stroke-linejoin':'round'},gMap));
@@ -122,14 +121,14 @@ function build(FS=42){
     w.forEach(x=>{const t=cur?cur+' '+x:x;if(cur&&wid(t,cls)>max){out.push(cur);cur=x}else cur=t});
     if(cur)out.push(cur);return out};
   const items=HOUSES.map(h=>{
-    const left=LEFT_IDS.includes(h.id),mx=left?520:560;
+    const left=LEFT_IDS.includes(h.id),mx=left?470:530;
     const rows=[];
     wrap(h.titel,'h',mx).forEach(l=>rows.push([l,'h']));
     (h.untertitel?h.untertitel.split('\n'):[]).forEach(l=>wrap(l,'sb',mx).forEach(m=>rows.push([m,'sb'])));
     (h.adresse?h.adresse.split('\n'):[]).forEach(l=>wrap(l,'ad',mx).forEach(m=>rows.push([m,'ad'])));
     const hw=wid(rows[0][0],'h');
     const bw=Math.max(...rows.map(r=>wid(r[0],r[1])));
-    return{h,id:h.id,x:h.x,y:h.y,rows,hw,bw,bh:(rows.length-1)*LH+30*k,hh:30*k,side:left?'L':'R'}
+    return{h,id:h.id,x:h.x,y:h.y,rows,hw,bw,bh:(rows.length-1)*LH+30,hh:30,side:left?'L':'R'}
   });
   const t1=wid('Großeicholzheim','town'),t2=wid('Oberschefflenz','town'),t3=wid('Eberbach','town');
   probe.remove();
@@ -143,8 +142,7 @@ function build(FS=42){
   town('Oberschefflenz',1037,1775);
 
   /* Spalten und Abstände, Linienkreuzungen minimieren */
-  const XL=400,XR=2040,GAP=46*k,TOP=230;
-  let BOT=1800;['L','R'].forEach(sd=>{const A=items.filter(i=>i.side===sd);BOT=Math.max(BOT,TOP+A.reduce((t,i)=>t+i.bh,0)+GAP*(A.length-1)+60*k)});
+  const XL=400,XR=2040,GAP=46,TOP=230,BOT=1800;
   const segX=(p,q,r,t)=>{const o=(a,b,c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
     return o(p,q,r)*o(p,q,t)<0&&o(r,t,p)*o(r,t,q)<0};
   const segRect=(p,q,r)=>{let t0=0,t1=1;const dx=q[0]-p[0],dy=q[1]-p[1];
@@ -153,8 +151,8 @@ function build(FS=42){
     return true};
   ['L','R'].forEach(side=>{
     const L=items.filter(i=>i.side===side).sort((a,b)=>a.y-b.y);
-    const place=()=>L.forEach(it=>{it.x0=side==='L'?XL:XR;it.ty=it.top+30*k;
-      it.a=[side==='L'?it.x0+it.hw+16*k:it.x0-16*k,it.ty-13*k];it.b=[it.x,it.y]});
+    const place=()=>L.forEach(it=>{it.x0=side==='L'?XL:XR;it.ty=it.top+30;
+      it.a=[side==='L'?it.x0+it.hw+16:it.x0-16,it.ty-13];it.b=[it.x,it.y]});
     const relax=()=>{
       L.forEach(it=>{it.top=it.y-it.hh});
       for(let r=0;r<3;r++){
@@ -164,7 +162,7 @@ function build(FS=42){
       }
       place();
     };
-    const cost=()=>{let c=0,len=0;L.forEach((p,i)=>{len+=Math.hypot(p.a[0]-p.b[0],p.a[1]-p.b[1]);for(let j=i+1;j<L.length;j++)if(segX(p.a,p.b,L[j].a,L[j].b))c+=1;L.forEach(q=>{if(q!==p&&segRect(p.a,p.b,[q.x0-10,q.top-40*k,q.x0+q.bw+10,q.top+q.bh+10]))c+=1})});return c*10000+len};
+    const cost=()=>{let c=0,len=0;L.forEach((p,i)=>{len+=Math.hypot(p.a[0]-p.b[0],p.a[1]-p.b[1]);for(let j=i+1;j<L.length;j++)if(segX(p.a,p.b,L[j].a,L[j].b))c+=1;L.forEach(q=>{if(q!==p&&segRect(p.a,p.b,[q.x0-10,q.top-40,q.x0+q.bw+10,q.top+q.bh+10]))c+=1})});return c*10000+len};
     const feasible=()=>{for(let i=0;i<L.length;i++){const lo=i?L[i-1].top+L[i-1].bh+GAP:TOP;if(L[i].top<lo-.01)return false}const z=L[L.length-1];return z.top+z.bh<=BOT+.01};
     const tune=()=>{let best=cost();
       for(let pass=0;pass<14;pass++){let imp=false;
@@ -184,7 +182,7 @@ function build(FS=42){
   /* Ebenen: Linien, Punkte, Beschriftung */
   const gLines=el('g',{},svg),gDots=el('g',{},svg),gLabs=el('g',{},svg);
   const parts={};
-  let minX=XL-20,maxX=0,minY=200,maxY=BOT+10;
+  let minX=XL-20,maxX=0,minY=200,maxY=1810;
   items.forEach(it=>{maxX=Math.max(maxX,it.x0+it.bw+20)});
   [...items].sort((a,b)=>a.y-b.y).forEach(it=>{
     const cg=el('g',{class:'part cube'},gDots);
@@ -198,7 +196,7 @@ function build(FS=42){
     const st=[it.x+dx*s,it.y+dy*s];
     const ln=el('path',{class:'part conn',d:`M${st[0].toFixed(1)},${st[1].toFixed(1)} L${it.a[0].toFixed(1)},${it.a[1].toFixed(1)}`},gLines);
     const lg=el('g',{class:'part lab',tabindex:0,role:'button','aria-label':it.h.titel+' – Details öffnen'},gLabs);
-    el('rect',{class:'hit',x:it.x0-12,y:it.ty-40*k,width:it.bw+24,height:it.bh+14*k},lg);
+    el('rect',{class:'hit',x:it.x0-12,y:it.ty-40,width:it.bw+24,height:it.bh+14},lg);
     it.rows.forEach(([l,c],j)=>{const t=el('text',{class:c,x:it.x0,y:it.ty+j*LH},lg);t.textContent=l});
     parts[it.id]=[ln,lg,it.cube];
     const on=()=>{svg.classList.add('hov');parts[it.id].forEach(e=>e.classList.add('on'))};
@@ -213,21 +211,6 @@ function build(FS=42){
   });
   svg.setAttribute('viewBox',`${minX} ${minY} ${maxX-minX} ${maxY-minY}`);
 }
-
-/* Beschriftung exakt so groß wie der Fließtext (16 px): Schriftgröße in Karteneinheiten iterativ bestimmen */
-let dirty=false;
-function fitBuild(){
-  let FS=42;
-  for(let i=0;i<4;i++){
-    build(FS);
-    const W=svg.getBoundingClientRect().width,vb=svg.viewBox.baseVal;
-    if(!W||!vb.width)break;
-    const fs=Math.min(90,Math.max(28,16*vb.width/W));
-    if(Math.abs(fs-FS)<.4)break;FS=fs;
-  }
-  dirty=false;
-}
-let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if(vm.hidden)dirty=true;else fitBuild()},150)});
 
 /* ---------- Verzeichnis (Handy) ---------- */
 const list=document.getElementById('list');
@@ -271,14 +254,14 @@ function render(b){
 function route(){
   const slug=location.hash.slice(1).split('?')[0]||'menschen-und-orte';
   const pg=PAGES[slug];modal.classList.remove('open');
-  vm.hidden=!!pg;vp.hidden=!pg;if(!pg&&dirty)fitBuild();
+  vm.hidden=!!pg;vp.hidden=!pg;
   if(pg){vp.innerHTML=`<h2>${esc(pg.titel)}</h2>${pg.untertitel?`<div class="sub">${esc(pg.untertitel)}</div>`:''}${pg.bloecke.map(render).join('')}`;
     document.title=pg.titel+' · Kleineicholzheim'}else document.title='Jüdisches Leben in Kleineicholzheim';
   nav.querySelectorAll('a').forEach(a=>a.toggleAttribute('aria-current',a.dataset.slug===(pg?slug:'menschen-und-orte')));
   scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
-(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>{vm.hidden=false;fitBuild();route()});
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>{vm.hidden=false;build();route()});
 </script>
 </body>
 </html>
