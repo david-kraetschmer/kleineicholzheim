@@ -121,7 +121,7 @@ function build(){
     w.forEach(x=>{const t=cur?cur+' '+x:x;if(cur&&wid(t,cls)>max){out.push(cur);cur=x}else cur=t});
     if(cur)out.push(cur);return out};
   const items=HOUSES.map(h=>{
-    const left=LEFT_IDS.includes(h.id),mx=left?470:700;
+    const left=LEFT_IDS.includes(h.id),mx=left?470:530;
     const rows=[];
     wrap(h.titel,'h',mx).forEach(l=>rows.push([l,'h']));
     (h.untertitel?h.untertitel.split('\n'):[]).forEach(l=>wrap(l,'sb',mx).forEach(m=>rows.push([m,'sb'])));
