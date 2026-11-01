@@ -41,6 +41,11 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .page p{margin-bottom:1em;white-space:pre-line;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
 .page h3{font:500 1.05rem "Helvetica Neue",Helvetica,Arial,sans-serif;margin:1.4em 0 .4em}
 .page figure{margin:1.5em 0}.page figure img{width:100%;display:block}
+.page figure.mittel{max-width:500px}
+.page figure.klein{float:right;clear:right;width:34%;margin:.3em 0 1em 24px}
+.page::after{content:"";display:block;clear:both}
+.page figure:not(.klein){clear:both}
+@media(max-width:600px){.page figure.klein{float:none;width:60%;margin:1.2em 0}}
 .page figcaption{font-size:.85rem;color:var(--mute);margin-top:6px}
 .chart{margin:2.2em 0}
 .chart .ct{font-weight:500;margin-bottom:14px}
@@ -268,7 +273,7 @@ MENU.forEach(([slug,name])=>{const a=document.createElement('a');a.href='#'+slug
   a.innerHTML=`<span>${esc(name||PAGES[slug].titel)}</span>`;nav.append(a)});
 function render(b){
   if(b.typ==='ueberschrift')return `<h3>${esc(b.text)}</h3>`;
-  if(b.typ==='bild')return `<figure><img src="${esc(b.src)}" alt="${esc(b.alt||'')}">${b.unterschrift?`<figcaption>${esc(b.unterschrift)}</figcaption>`:''}</figure>`;
+  if(b.typ==='bild')return `<figure${b.groesse?` class="${b.groesse}"`:''}><img src="${esc(b.src)}" alt="${esc(b.alt||'')}" loading="lazy">${b.unterschrift?`<figcaption>${esc(b.unterschrift)}</figcaption>`:''}</figure>`;
   if(b.typ==='info')return `<div class="infobox"><b>${esc(b.titel)}</b>${(b.zeilen||[]).map(z=>`<div>${esc(z)}</div>`).join('')}</div>`;
   if(b.typ==='diagramm'){CHARTS.push(b);return `<figure class="chart" data-i="${CHARTS.length-1}"></figure>`}
   return paras(b.text);
