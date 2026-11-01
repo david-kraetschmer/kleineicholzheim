@@ -11,7 +11,8 @@ window.PAGES = {
  },
  "juedische-gemeinde-in-kleineicholzheim": {
   titel:"Jüdische Gemeinde in Kleineicholzheim", untertitel:"",
-  bloecke:[{typ:"text", text:"Hier folgt dein Text."}]
+  bloecke:[{typ:"text", text:"Hier folgt dein Text."},
+   {"typ": "diagramm", "titel": "Bevölkerungsentwicklung der jüdischen Gemeinde", "x": [1853, 1952], "y": [0, 300], "yStep": 50, "xTicks": [1860], "xStep": 20, "serien": [{"name": "Gesamtbevölkerung", "hell": true, "nameX": 1904, "nameDy": -16, "punkte": [[1856, 295], [1874, 258], [1882, 266], [1892, 245], [1902, 198], [1912, 191], [1926, 206], [1934, 201], [1940, 160], [1950, 252]]}, {"name": "Jüdische Bevölkerung", "marken": true, "nameX": 1906, "nameDy": -26, "punkte": [[1855, 119], [1864, 107], [1875, 93], [1880, 98], [1900, 74], [1910, 51], [1925, 38], [1933, 28], [1940.6, 15, "Sept. 1940: 15", "start", "", -8], [1940.9, 0, "Nov. 1940: 0", "start", "ende", -9]]}], "hinweis": "Jüdische Bevölkerung: Einwohnerzahlen der angegebenen Jahre. Gesamtbevölkerung: ungefähre Werte."}]
  },
  "impressum": {
   titel:"Impressum", untertitel:"",
