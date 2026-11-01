@@ -282,7 +282,7 @@ function drawCharts(){
     const X=v=>L+(v-x0)/(x1-x0)*(W-L-R),Y=v=>H-B-(v-y0)/(y1-y0)*(H-T-B);
     const f=n=>n.toFixed(1);
     let g='';
-    for(let v=y0;v<=y1;v+=d.yStep)g+=`<line class="gl" x1="${L}" x2="${W-R}" y1="${f(Y(v))}" y2="${f(Y(v))}"/><text class="tk" x="${L-10}" y="${f(Y(v)+4)}" text-anchor="end">${v}</text>`;
+    for(let v=y0;v<=y1;v+=d.yStep)g+=`<text class="tk" x="${L-10}" y="${f(Y(v)+4)}" text-anchor="end">${v}</text>`;
     g+=`<line class="ax" x1="${L}" x2="${W-R}" y1="${f(Y(y0))}" y2="${f(Y(y0))}"/>`;
     for(let v=d.xTicks[0];v<=x1;v+=d.xStep||20)g+=`<line class="ax" x1="${f(X(v))}" x2="${f(X(v))}" y1="${f(Y(y0))}" y2="${f(Y(y0)+5)}"/><text class="tk" x="${f(X(v))}" y="${f(Y(y0)+22)}" text-anchor="middle">${v}</text>`;
     const at=(p,v)=>{for(let i=1;i<p.length;i++)if(v<=p[i][0]){const a=p[i-1],b=p[i];return a[1]+(b[1]-a[1])*(v-a[0])/(b[0]-a[0])}return p[p.length-1][1]};
