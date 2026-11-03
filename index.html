@@ -17,7 +17,7 @@ nav a:hover,nav a:focus-visible{background:none;color:var(--acc);outline:none}
 nav a[aria-current],nav a[aria-current]:hover{background:none;border-color:var(--ink);color:var(--ink)}
 .intro{font-size:clamp(.85rem,1.05vw,1.05rem);margin-bottom:8px}
 #view-map{overflow-x:auto}
-svg.map{max-width:100%;height:auto;display:block;overflow:visible}
+svg.map{width:100%;max-width:1150px;height:auto;display:block;overflow:visible}
 @media(max-width:820px){svg.map{width:100%!important}}
 .h{font:500 42px "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.005em}
 .sb,.ad{font:400 37px "Helvetica Neue",Helvetica,Arial,sans-serif;fill:var(--ink)}
@@ -256,7 +256,6 @@ function build(){
     lg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(it.h,lg)}});
   });
   svg.setAttribute('viewBox',`${minX} ${minY} ${maxX-minX} ${maxY-minY}`);
-  svg.style.width=Math.round((maxX-minX)*.43)+'px'; /* feste Größe: Schrift der Karte bleibt immer gleich */
 }
 
 /* ---------- Verzeichnis (Handy) ---------- */
