@@ -46,6 +46,10 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .page::after{content:"";display:block;clear:both}
 .page figure:not(.klein){clear:both}
 @media(max-width:600px){.page figure.klein{float:none;width:60%;margin:1.2em 0}}
+.page .namen{list-style:none;padding:0;margin:1.2em 0 1.8em;columns:3;column-gap:32px}
+.page .namen li{break-inside:avoid;padding:5px 0;border-top:1px solid #1b19171f}
+@media(max-width:900px){.page .namen{columns:2}}
+@media(max-width:520px){.page .namen{columns:1}}
 .page figure.reihe{clear:both}
 .page .rz{display:flex;gap:10px;align-items:flex-start}
 .page .rz img{width:100%;height:auto;display:block}
@@ -271,7 +275,7 @@ modal.onclick=e=>{if(e.target===modal)close()};
 addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 
 /* ---------- Menü & Seiten ---------- */
-const MENU=[['juedische-geschichte-in-sueddeutschland'],['juedische-gemeinde-in-kleineicholzheim'],['ns-zeit-und-das-ende-der-gemeinde'],['menschen-und-orte','Menschen und Orte']];
+const MENU=[['juedische-geschichte-in-sueddeutschland'],['juedische-gemeinde-in-kleineicholzheim'],['ns-zeit-und-das-ende-der-gemeinde'],['erinnerung'],['menschen-und-orte','Menschen und Orte']];
 const nav=document.getElementById('nav'),vm=document.getElementById('view-map'),vp=document.getElementById('view-page');
 MENU.forEach(([slug,name])=>{const a=document.createElement('a');a.href='#'+slug;a.dataset.slug=slug;
   a.innerHTML=`<span>${esc(name||PAGES[slug].titel)}</span>`;nav.append(a)});
@@ -280,6 +284,7 @@ function render(b){
   if(b.typ==='bild')return `<figure${b.groesse?` class="${b.groesse}"`:''}><img src="${esc(b.src)}" alt="${esc(b.alt||'')}" loading="lazy">${b.unterschrift?`<figcaption>${esc(b.unterschrift)}</figcaption>`:''}</figure>`;
   if(b.typ==='info')return `<div class="infobox"><b>${esc(b.titel)}</b>${(b.zeilen||[]).map(z=>`<div>${esc(z)}</div>`).join('')}</div>`;
   if(b.typ==='bilderreihe')return `<figure class="reihe"><div class="rz">${b.bilder.map(i=>`<img src="${esc(i.src)}" alt="${esc(i.alt||b.unterschrift||'')}" loading="lazy" style="flex:${i.verhaeltnis||1} 1 0;min-width:0">`).join('')}</div>${b.unterschrift?`<figcaption>${esc(b.unterschrift)}</figcaption>`:''}</figure>`;
+  if(b.typ==='namen')return `<ul class="namen">${b.namen.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>`;
   if(b.typ==='diagramm'){CHARTS.push(b);return `<figure class="chart" data-i="${CHARTS.length-1}"></figure>`}
   return paras(b.text);
 }

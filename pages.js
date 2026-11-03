@@ -31,6 +31,21 @@ window.PAGES = {
    {"typ": "bild", "src": "images/gemeinde-nachruf-emil.jpg", "alt": "Nachruf auf Emil Lissberger, gestorben in Würzburg, 17. Oktober 1920", "unterschrift": "Nachruf auf Emil Lissberger, gestorben in Würzburg, 17. Oktober 1920", "groesse": "mittel"}
   ]
  },
+ "erinnerung": {
+  titel:"Erinnerung", untertitel:"",
+  bloecke:[
+   {"typ": "text", "text": "Die Namen von 25 in der NS-Zeit umgekommenen Juden, die in Kleineicholzheim geboren wurden oder längere Zeit am Ort wohnten, finden sich in den Listen von Yad Vashem in Jerusalem und im Gedenkbuch „Opfer der Verfolgung der Juden unter der nationalsozialistischen Gewaltherrschaft in Deutschland 1933–1945“."},
+   {"typ": "namen", "namen": ["Daniel Israel Bär", "Mathilde Bär", "Katharina Bravmann geb. Lissberger", "Bernhard Böttigheimer", "Berta Böttigheimer", "Elise Böttigheimer", "Elsa Böttigheimer", "Günter Böttigheimer", "Israel Böttigheimer", "Mathilde Böttigheimer", "Selma Böttigheimer", "Zilli Gutmann geb. Lissberger", "Julia Gutmann geb. Böttigheimer", "Hedwig Hirschfeld geb. Kaufmann", "Emanuel Kahn", "Fanni Kahn geb. Kaufmann", "Mina Kahn geb. Lissberger", "Ludwig Kaufmann", "Michael Lissberger", "Laura Lissberger", "Max Lissberger", "Helene Mayer", "Lina Metzger", "Max Sinsheimer", "Salomon Sinsheimer"]},
+   {"typ": "bilderreihe", "unterschrift": "Todesfallanzeigen aus dem Ghetto Theresienstadt: Israel Böttigheimer (gestorben am 18. September 1942) und Cilli Gutmann, geb. Lissberger (gestorben am 6. Dezember 1942)", "bilder": [{"src": "images/erinnerung-todesfall-israel.jpg", "verhaeltnis": 0.674, "alt": "Todesfallanzeige Israel Böttigheimer"}, {"src": "images/erinnerung-todesfall-cilli.jpg", "verhaeltnis": 0.677, "alt": "Todesfallanzeige Cilli Gutmann, geb. Lissberger"}]},
+   {"typ": "text", "text": "Die 15 letzten in Kleineicholzheim wohnhaften Juden wurden 1940 nach Gurs deportiert:"},
+   {"typ": "namen", "namen": ["Daniel Israel Bär", "Mathilde Bär", "Elise Böttigheimer", "Moses Böttigheimer", "Mathilde Böttigheimer", "Günther Böttigheimer", "Betty Böttigheimer", "Bernd Böttigheimer", "Elsa Böttigheimer", "Berta Böttigheimer", "Emanuel Kahn", "Fanni Kahn", "Max Lissberger", "Laura Lissberger", "Malchen Lissberger"]},
+   {"typ": "text", "text": "Von diesen 15 haben vier überlebt:"},
+   {"typ": "namen", "namen": ["Moses Böttigheimer", "Betty Böttigheimer", "Bernd Böttigheimer", "Malchen Lissberger"]},
+   {"typ": "text", "text": "Nach den Jahren der Verfolgung und Internierung in Theresienstadt kehrte der aus Kleineicholzheim gebürtige Friedrich (Fritz) Böttigheimer zurück."},
+   {"typ": "bild", "src": "images/erinnerung-gedenktafel.jpg", "alt": "Gedenktafel am Rathaus", "unterschrift": "Bronzene Gedenktafel am Rathaus: „Zum Gedenken an die verfolgten, vertriebenen, getöteten jüdischen Bürger Kleineicholzheim 1933–1945“", "groesse": "klein"},
+   {"typ": "text", "text": "Seit 1993 erinnert eine bronzene Gedenktafel am Rathaus an die einstige jüdische Gemeinde des Dorfes.\n\nAuf dem jüdischen Friedhof in Bödigheim gibt es eine Gedenktafel für die „Opfer des Faschismus“ für acht während der NS-Zeit ermordete jüdische Personen aus Kleineicholzheim. Außerdem steht dort ein Denkmal für die jüdischen Gefallenen des Ersten Weltkriegs aus verschiedenen Ortschaften und aus Kleineicholzheim (Namen: Gustav Böttigheimer, Samuel Böttigheimer).\n\nFür das zentrale Mahnmal für die verschleppten und ermordeten Juden Badens in Neckarzimmern gestaltete 2004 eine Schülergruppe der Grund- und Hauptschule Schefflenz einen Gedenkstein für die ehemaligen jüdischen Bewohner von Kleineicholzheim. Ein zweiter Gedenkstein steht auf dem Friedhof in Kleineicholzheim. Er wurde auf Initiative von Dr. Georg Fischer von Jugendlichen der Schefflenzschule gestaltet, die gestalteten Steine bilden die Form eines Davidsterns und sind so zum Mahnmal geworden.\n\nAm 9. November 2025 fand vor dem alten Rathaus eine Gedenkstunde anlässlich des Jahrestages der Reichspogromnacht unter dem Motto „Jeder Mensch hat einen Namen“ statt."}
+  ]
+ },
  "impressum": {
   titel:"Impressum", untertitel:"",
   bloecke:[{typ:"text", text:"Angaben gemäß § 5 DDG\n\nName: [Vor- und Nachname eintragen]\nAnschrift: [Straße, PLZ Ort eintragen]\nE-Mail: [E-Mail-Adresse eintragen]"}]
