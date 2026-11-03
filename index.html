@@ -145,8 +145,10 @@ const LH=47; /* Zeilenabstand der Beschriftung */
 
 function build(){
   svg.innerHTML='';
-  const gMap=el('g',{},svg);
-  ROADS.forEach(([d,w])=>el('path',{d,fill:'none',stroke:INK,'stroke-width':w,'stroke-linecap':'round','stroke-linejoin':'round'},gMap));
+  const CUT=390; /* oben abgeschnitten: Linien beginnen erst hier */
+  const defs=el('defs',{},svg),cpth=el('clipPath',{id:'mapclip'},defs);el('rect',{x:0,y:CUT,width:4000,height:3000},cpth);
+  const gMap=el('g',{},svg),gRoads=el('g',{'clip-path':'url(#mapclip)'},gMap);
+  ROADS.forEach(([d,w])=>el('path',{d,fill:'none',stroke:INK,'stroke-width':w,'stroke-linecap':'round','stroke-linejoin':'round'},gRoads));
   const creek=ROADS[CREEK][0];
   const cp=el('path',{d:creek,fill:'none'},gMap);
   const clen=cp.getTotalLength();
@@ -173,14 +175,15 @@ function build(){
 
   /* Ortsnamen */
   const town=(s,x,y,extra={})=>{const e=el('text',{class:'town',x,y,...extra},gMap);e.textContent=s;return e};
-  town('Großeicholzheim',1465.9,245.5);
+  town('Großeicholzheim',1470,CUT-18);
   /* Eberbach: am Bach entlang, links neben der Linie */
-  {const p0=cp.getPointAtLength(clen*.07);
+  {let L0=0;while(L0<clen&&cp.getPointAtLength(L0).y<CUT+45)L0+=4;
+   const p0=cp.getPointAtLength(L0);
    town('Eberbach',p0.x+18,p0.y-4)}
   town('Oberschefflenz',1037,1775);
 
   /* Spalten und Abstände, Linienkreuzungen minimieren */
-  const XL=400,XR=2040,GAP=46,TOP=230,BOT=1800;
+  const XL=400,XR=2040,GAP=46,TOP=330,BOT=1800;
   const segX=(p,q,r,t)=>{const o=(a,b,c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
     return o(p,q,r)*o(p,q,t)<0&&o(r,t,p)*o(r,t,q)<0};
   const segRect=(p,q,r)=>{let t0=0,t1=1;const dx=q[0]-p[0],dy=q[1]-p[1];
@@ -220,7 +223,7 @@ function build(){
   /* Ebenen: Linien, Punkte, Beschriftung */
   const gLines=el('g',{},svg),gDots=el('g',{},svg),gLabs=el('g',{},svg);
   const parts={};
-  let minX=XL-20,maxX=0,minY=200,maxY=1810;
+  let minX=XL-20,maxX=0,minY=CUT-70,maxY=1792;
   items.forEach(it=>{maxX=Math.max(maxX,it.x0+it.bw+20)});
   [...items].sort((a,b)=>a.y-b.y).forEach(it=>{
     const cg=el('g',{class:'part cube'},gDots);
