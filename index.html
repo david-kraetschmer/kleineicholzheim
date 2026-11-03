@@ -46,6 +46,10 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .page::after{content:"";display:block;clear:both}
 .page figure:not(.klein){clear:both}
 @media(max-width:600px){.page figure.klein{float:none;width:60%;margin:1.2em 0}}
+.page figure.reihe{clear:both}
+.page .rz{display:flex;gap:10px;align-items:flex-start}
+.page .rz img{width:100%;height:auto;display:block}
+@media(max-width:600px){.page .rz{flex-direction:column}.page .rz img{flex:none!important}}
 .page figcaption{font-size:.85rem;color:var(--mute);margin-top:6px}
 .chart{margin:2.2em 0}
 .chart .ct{font-weight:500;margin-bottom:14px}
@@ -275,6 +279,7 @@ function render(b){
   if(b.typ==='ueberschrift')return `<h3>${esc(b.text)}</h3>`;
   if(b.typ==='bild')return `<figure${b.groesse?` class="${b.groesse}"`:''}><img src="${esc(b.src)}" alt="${esc(b.alt||'')}" loading="lazy">${b.unterschrift?`<figcaption>${esc(b.unterschrift)}</figcaption>`:''}</figure>`;
   if(b.typ==='info')return `<div class="infobox"><b>${esc(b.titel)}</b>${(b.zeilen||[]).map(z=>`<div>${esc(z)}</div>`).join('')}</div>`;
+  if(b.typ==='bilderreihe')return `<figure class="reihe"><div class="rz">${b.bilder.map(i=>`<img src="${esc(i.src)}" alt="${esc(i.alt||b.unterschrift||'')}" loading="lazy" style="flex:${i.verhaeltnis||1} 1 0;min-width:0">`).join('')}</div>${b.unterschrift?`<figcaption>${esc(b.unterschrift)}</figcaption>`:''}</figure>`;
   if(b.typ==='diagramm'){CHARTS.push(b);return `<figure class="chart" data-i="${CHARTS.length-1}"></figure>`}
   return paras(b.text);
 }
