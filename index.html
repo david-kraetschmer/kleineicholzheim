@@ -37,6 +37,7 @@ svg.map{width:100%;height:auto;display:block;overflow:visible}
 .index button small{display:block;font:400 .85rem "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--mute)}
 .page{max-width:82ch}
 .page h2{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;font-size:clamp(1.1rem,1.35vw,1.4rem);line-height:1.08;margin-bottom:1.1em}
+#view-map h2{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;font-size:clamp(1.1rem,1.35vw,1.4rem);line-height:1.08;margin-bottom:1.1em}
 .page .sub{color:var(--mute);margin-bottom:1.2em}
 .page p{margin-bottom:1em;white-space:pre-line;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
 .page h3{font:500 1.05rem "Helvetica Neue",Helvetica,Arial,sans-serif;margin:1.4em 0 .4em}
@@ -114,6 +115,7 @@ footer a{color:inherit;text-decoration:none}footer a:hover{color:var(--line)}
 
   <main>
     <section id="view-map">
+      <h2>Menschen und Orte</h2>
       <p class="intro">Die letzten Menschen, Familien und Orte der jüdischen Gemeinde vor ihrer Vertreibung und Ermordung durch das NS-Regime.<br>Wähle einen Punkt auf der Karte um mehr zu erfahren</p>
       <svg id="svg" class="map" viewBox="480 200 2200 1610" role="group" aria-label="Karte von Kleineicholzheim"></svg>
       <section class="index" aria-label="Verzeichnis"><ol id="list" style="list-style:none;padding:0"></ol></section>
@@ -275,7 +277,7 @@ modal.onclick=e=>{if(e.target===modal)close()};
 addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 
 /* ---------- Menü & Seiten ---------- */
-const MENU=[['juedische-geschichte-in-sueddeutschland'],['juedische-gemeinde-in-kleineicholzheim'],['ns-zeit-und-das-ende-der-gemeinde'],['erinnerung'],['menschen-und-orte','Menschen und Orte']];
+const MENU=[['juedische-geschichte-in-sueddeutschland'],['juedische-gemeinde-in-kleineicholzheim'],['menschen-und-orte','Menschen und Orte'],['ns-zeit-und-das-ende-der-gemeinde'],['erinnerung']];
 const nav=document.getElementById('nav'),vm=document.getElementById('view-map'),vp=document.getElementById('view-page');
 MENU.forEach(([slug,name])=>{const a=document.createElement('a');a.href='#'+slug;a.dataset.slug=slug;
   a.innerHTML=`<span>${esc(name||PAGES[slug].titel)}</span>`;nav.append(a)});
