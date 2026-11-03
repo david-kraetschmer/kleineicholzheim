@@ -17,7 +17,7 @@ nav a:hover,nav a:focus-visible{background:none;color:var(--acc);outline:none}
 nav a[aria-current],nav a[aria-current]:hover{background:none;border-color:var(--ink);color:var(--ink)}
 .intro{font-size:clamp(.85rem,1.05vw,1.05rem);margin-bottom:8px}
 #view-map{overflow-x:auto}
-svg.map{max-width:none;height:auto;display:block;overflow:visible}
+svg.map{max-width:100%;height:auto;display:block;overflow:visible}
 @media(max-width:820px){svg.map{width:100%!important}}
 .h{font:500 42px "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.005em}
 .sb,.ad{font:400 37px "Helvetica Neue",Helvetica,Arial,sans-serif;fill:var(--ink)}
@@ -149,6 +149,10 @@ function build(){
   const defs=el('defs',{},svg),cpth=el('clipPath',{id:'mapclip'},defs);el('rect',{x:0,y:CUT,width:4000,height:3000},cpth);
   const gMap=el('g',{},svg),gRoads=el('g',{'clip-path':'url(#mapclip)'},gMap);
   ROADS.forEach(([d,w])=>el('path',{d,fill:'none',stroke:INK,'stroke-width':w,'stroke-linecap':'round','stroke-linejoin':'round'},gRoads));
+  /* abgerundete Enden an der Schnittkante (Straße und Bach) */
+  [ROADS[0],ROADS[1]].forEach(([d,w])=>{const t=el('path',{d,fill:'none'},gMap),n=t.getTotalLength();let a=0;
+    while(a<n&&t.getPointAtLength(a).y<CUT)a+=1;const q=t.getPointAtLength(a);
+    el('circle',{cx:q.x,cy:CUT,r:w/2,fill:INK},gMap);t.remove()});
   const creek=ROADS[CREEK][0];
   const cp=el('path',{d:creek,fill:'none'},gMap);
   const clen=cp.getTotalLength();
@@ -224,6 +228,7 @@ function build(){
   const gLines=el('g',{},svg),gDots=el('g',{},svg),gLabs=el('g',{},svg);
   const parts={};
   let minX=XL-20,maxX=0,minY=CUT-70,maxY=1792;
+  items.forEach(it=>{maxY=Math.max(maxY,it.ty+(it.rows.length-1)*LH+30)});
   items.forEach(it=>{maxX=Math.max(maxX,it.x0+it.bw+20)});
   [...items].sort((a,b)=>a.y-b.y).forEach(it=>{
     const cg=el('g',{class:'part cube'},gDots);
@@ -251,7 +256,7 @@ function build(){
     lg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(it.h,lg)}});
   });
   svg.setAttribute('viewBox',`${minX} ${minY} ${maxX-minX} ${maxY-minY}`);
-  svg.style.width=Math.round((maxX-minX)*.40)+'px'; /* feste Größe: Schrift der Karte bleibt immer gleich */
+  svg.style.width=Math.round((maxX-minX)*.43)+'px'; /* feste Größe: Schrift der Karte bleibt immer gleich */
 }
 
 /* ---------- Verzeichnis (Handy) ---------- */
